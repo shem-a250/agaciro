@@ -1,0 +1,2279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AGACIRO Football Academy</title>
+    <style>
+        :root {
+            --aqua: #00BCD4;
+            --aqua-light: #4DD0E1;
+            --aqua-dark: #00838F;
+            --aqua-deep: #006064;
+            --aqua-pale: #B2EBF2;
+            --aqua-glow: #26C6DA;
+            --black: #0d0d0d;
+            --black-soft: #1a1a1a;
+            --black-medium: #222222;
+            --black-light: #2a2a2a;
+            --white: #ffffff;
+            --off-white: #f0fafa;
+            --gray: #b0b0b0;
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.15);
+            --shadow-md: 0 8px 32px rgba(0, 0, 0, 0.25);
+            --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.35);
+            --radius: 14px;
+            --radius-sm: 8px;
+            --radius-lg: 20px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: var(--off-white);
+            color: var(--black);
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ========== NAVIGATION ========== */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background: var(--black);
+            padding: 0 2rem;
+            transition: var(--transition);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
+            height: 70px;
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar.scrolled {
+            height: 60px;
+            background: rgba(13, 13, 13, 0.97);
+            backdrop-filter: blur(12px);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.6);
+        }
+
+        .nav-container {
+            max-width: 1300px;
+            width: 100%;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: var(--white);
+            font-weight: 800;
+            font-size: 1.4rem;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-logo .logo-icon {
+            width: 44px;
+            height: 44px;
+            background: var(--aqua);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--black);
+            font-weight: 900;
+            flex-shrink: 0;
+            box-shadow: 0 0 20px rgba(0, 188, 212, 0.4);
+        }
+
+        .nav-logo span {
+            color: var(--aqua);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #ccc;
+            padding: 0.6rem 1.2rem;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            position: relative;
+            white-space: nowrap;
+            letter-spacing: 0.3px;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--black);
+            background: var(--aqua);
+            box-shadow: 0 0 20px rgba(0, 188, 212, 0.35);
+        }
+
+        .nav-links a.active {
+            font-weight: 700;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px;
+            z-index: 1001;
+            padding: 8px;
+        }
+
+        .hamburger span {
+            width: 28px;
+            height: 3px;
+            background: var(--white);
+            border-radius: 3px;
+            transition: var(--transition);
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(6px, 6px);
+            background: var(--aqua);
+        }
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(6px, -6px);
+            background: var(--aqua);
+        }
+
+        /* ========== PAGE SECTIONS ========== */
+        .page-section {
+            display: none;
+            padding-top: 70px;
+            min-height: 100vh;
+            animation: fadeSlideIn 0.5s ease forwards;
+        }
+
+        .page-section.active-page {
+            display: block;
+        }
+
+        @keyframes fadeSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ========== HERO SECTION (HOME) ========== */
+        .hero {
+            position: relative;
+            width: 100%;
+            height: 90vh;
+            min-height: 600px;
+            background: var(--black);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, #0d0d0d 0%, #0a2a2d 40%, #00363d 70%, #0d0d0d 100%);
+            z-index: 0;
+        }
+
+        .hero-pattern {
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(circle at 20% 30%, rgba(0, 188, 212, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 60%, rgba(0, 188, 212, 0.2) 0%, transparent 50%),
+                radial-gradient(circle at 50% 80%, rgba(38, 198, 218, 0.1) 0%, transparent 40%);
+            z-index: 1;
+            animation: pulseGlow 8s ease-in-out infinite;
+        }
+
+        @keyframes pulseGlow {
+            0%,
+            100% {
+                opacity: 0.7;
+            }
+            50% {
+                opacity: 1;
+            }
+        }
+
+        .hero-grid-overlay {
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(0, 188, 212, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 188, 212, 0.05) 1px, transparent 1px);
+            background-size: 60px 60px;
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            padding: 2rem;
+            max-width: 900px;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: var(--aqua);
+            color: var(--black);
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+            animation: fadeSlideIn 0.6s ease 0.2s both;
+        }
+
+        .hero-content h1 {
+            font-size: 4rem;
+            font-weight: 900;
+            color: var(--white);
+            line-height: 1.1;
+            margin-bottom: 1rem;
+            letter-spacing: -1px;
+            animation: fadeSlideIn 0.6s ease 0.35s both;
+        }
+
+        .hero-content h1 .aqua-text {
+            color: var(--aqua);
+            text-shadow: 0 0 40px rgba(0, 188, 212, 0.5);
+        }
+
+        .hero-content .hero-subtitle {
+            font-size: 1.3rem;
+            color: #ccc;
+            margin-bottom: 2.5rem;
+            font-weight: 400;
+            animation: fadeSlideIn 0.6s ease 0.5s both;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeSlideIn 0.6s ease 0.65s both;
+        }
+
+        .btn {
+            padding: 0.85rem 2rem;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            text-decoration: none;
+            transition: var(--transition);
+            letter-spacing: 0.5px;
+            border: 2px solid transparent;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-aqua {
+            background: var(--aqua);
+            color: var(--black);
+            border-color: var(--aqua);
+        }
+        .btn-aqua:hover {
+            background: var(--aqua-light);
+            box-shadow: 0 8px 30px rgba(0, 188, 212, 0.45);
+            transform: translateY(-3px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--aqua);
+            border-color: var(--aqua);
+        }
+        .btn-outline:hover {
+            background: var(--aqua);
+            color: var(--black);
+            box-shadow: 0 8px 30px rgba(0, 188, 212, 0.35);
+            transform: translateY(-3px);
+        }
+
+        .btn-dark {
+            background: var(--black);
+            color: var(--aqua);
+            border-color: var(--black);
+        }
+        .btn-dark:hover {
+            background: var(--black-light);
+            box-shadow: var(--shadow-md);
+            transform: translateY(-3px);
+        }
+
+        .hero-scroll-indicator {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+            animation: bounce 2s infinite;
+            cursor: pointer;
+        }
+
+        .hero-scroll-indicator span {
+            display: block;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(0, 188, 212, 0.2);
+            border: 2px solid var(--aqua);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--aqua);
+            font-size: 1.2rem;
+        }
+
+        @keyframes bounce {
+            0%,
+            100% {
+                transform: translateX(-50%) translateY(0);
+            }
+            50% {
+                transform: translateX(-50%) translateY(-15px);
+            }
+        }
+
+        /* ========== SECTION STYLES ========== */
+        .section-container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3.5rem;
+        }
+
+        .section-header .section-tag {
+            display: inline-block;
+            background: var(--aqua-pale);
+            color: var(--aqua-deep);
+            padding: 0.4rem 1.2rem;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.8rem;
+            font-weight: 900;
+            color: var(--black);
+            letter-spacing: -1px;
+            margin-bottom: 0.5rem;
+        }
+
+        .section-header h2 .aqua-highlight {
+            color: var(--aqua-dark);
+            position: relative;
+        }
+
+        .section-header .section-line {
+            width: 80px;
+            height: 4px;
+            background: var(--aqua);
+            margin: 1rem auto;
+            border-radius: 2px;
+        }
+
+        .section-header p {
+            color: #555;
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* ========== ABOUT / PORTFOLIO SECTION ========== */
+        .about-section {
+            background: var(--white);
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-image-wrapper {
+            position: relative;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+            aspect-ratio: 4/3;
+            background: var(--black-light);
+        }
+
+        .about-image-placeholder {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #003d45 0%, #006064 30%, #00838F 60%, #00BCD4 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .about-image-placeholder::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(circle at 30% 40%, rgba(255, 255, 255, 0.2) 0%, transparent 40%),
+                radial-gradient(circle at 70% 60%, rgba(0, 0, 0, 0.3) 0%, transparent 40%);
+        }
+
+        .about-image-placeholder .placeholder-icon {
+            font-size: 8rem;
+            z-index: 1;
+            filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.4));
+            animation: floatIcon 4s ease-in-out infinite;
+        }
+
+        @keyframes floatIcon {
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-15px);
+            }
+        }
+
+        .about-image-badge {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background: var(--aqua);
+            color: var(--black);
+            padding: 0.6rem 1.4rem;
+            border-radius: 25px;
+            font-weight: 800;
+            font-size: 0.9rem;
+            z-index: 2;
+            box-shadow: var(--shadow-md);
+        }
+
+        .about-content h3 {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            color: var(--black);
+        }
+
+        .about-content .highlight-stat {
+            display: inline-block;
+            background: var(--aqua);
+            color: var(--black);
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .about-content p {
+            color: #444;
+            margin-bottom: 1rem;
+            font-size: 1.05rem;
+        }
+
+        .about-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .stat-card {
+            background: var(--aqua-pale);
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            text-align: center;
+            transition: var(--transition);
+            border: 2px solid transparent;
+        }
+
+        .stat-card:hover {
+            border-color: var(--aqua);
+            box-shadow: var(--shadow-md);
+            transform: translateY(-5px);
+            background: #d4f5f8;
+        }
+
+        .stat-card .stat-number {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--aqua-deep);
+        }
+        .stat-card .stat-label {
+            font-size: 0.9rem;
+            color: #555;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* ========== GALLERY / PORTFOLIO ========== */
+        .gallery-section {
+            background: var(--black);
+            padding: 0;
+        }
+
+        .gallery-section .section-container {
+            padding: 5rem 2rem;
+        }
+        .gallery-section .section-header h2 {
+            color: var(--white);
+        }
+        .gallery-section .section-header p {
+            color: #aaa;
+        }
+        .gallery-section .section-tag {
+            background: rgba(0, 188, 212, 0.2);
+            color: var(--aqua-light);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.2rem;
+            margin-top: 1rem;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: var(--radius);
+            overflow: hidden;
+            aspect-ratio: 3/4;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px rgba(0, 188, 212, 0.3);
+            z-index: 5;
+        }
+
+        .gallery-item.tall {
+            grid-row: span 2;
+            aspect-ratio: 3/5;
+        }
+        .gallery-item.wide {
+            grid-column: span 2;
+            aspect-ratio: 16/10;
+        }
+
+        .gallery-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: var(--transition);
+        }
+
+        .gallery-item:hover .gallery-img {
+            transform: scale(1.08);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.1) 50%, transparent 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 1.5rem;
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+
+        .gallery-overlay h4 {
+            color: var(--aqua);
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 0.3rem;
+        }
+        .gallery-overlay p {
+            color: #ddd;
+            font-size: 0.85rem;
+        }
+
+        /* Placeholder gallery images with colored backgrounds */
+        .gallery-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .gp-1 {
+            background: linear-gradient(135deg, #00363d, #006064);
+        }
+        .gp-2 {
+            background: linear-gradient(135deg, #004d55, #00838F);
+        }
+        .gp-3 {
+            background: linear-gradient(135deg, #002a30, #00ACC1);
+        }
+        .gp-4 {
+            background: linear-gradient(135deg, #003d45, #0097A7);
+        }
+        .gp-5 {
+            background: linear-gradient(135deg, #001f24, #00BCD4);
+        }
+        .gp-6 {
+            background: linear-gradient(135deg, #00333a, #26C6DA);
+        }
+        .gp-7 {
+            background: linear-gradient(135deg, #00262b, #00838F);
+        }
+        .gp-8 {
+            background: linear-gradient(135deg, #003d45, #4DD0E1);
+        }
+
+        /* ========== SCHEDULE PAGE ========== */
+        .schedule-hero {
+            background: linear-gradient(135deg, #0d0d0d 0%, #00363d 100%);
+            padding: 5rem 2rem 3rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .schedule-hero h1 {
+            font-size: 3rem;
+            color: var(--white);
+            font-weight: 900;
+        }
+        .schedule-hero h1 span {
+            color: var(--aqua);
+        }
+        .schedule-hero p {
+            color: #bbb;
+            font-size: 1.1rem;
+            margin-top: 0.5rem;
+        }
+
+        .schedule-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+        .schedule-tab {
+            padding: 0.7rem 1.8rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: var(--transition);
+            border: 2px solid var(--aqua);
+            background: transparent;
+            color: var(--aqua);
+            font-size: 0.95rem;
+        }
+        .schedule-tab.active-tab,
+        .schedule-tab:hover {
+            background: var(--aqua);
+            color: var(--black);
+            box-shadow: 0 0 20px rgba(0, 188, 212, 0.35);
+        }
+
+        .schedule-table-wrapper {
+            overflow-x: auto;
+            margin: 2rem 0;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .schedule-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--white);
+            min-width: 700px;
+        }
+
+        .schedule-table thead {
+            background: var(--black);
+            color: var(--aqua);
+        }
+
+        .schedule-table th {
+            padding: 1.2rem 1rem;
+            text-align: left;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.85rem;
+        }
+
+        .schedule-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #e8f4f5;
+            font-weight: 500;
+        }
+
+        .schedule-table tbody tr {
+            transition: var(--transition);
+        }
+        .schedule-table tbody tr:hover {
+            background: var(--aqua-pale);
+        }
+
+        .schedule-table .match-badge {
+            display: inline-block;
+            padding: 0.3rem 0.9rem;
+            border-radius: 15px;
+            font-weight: 700;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+        }
+        .badge-training {
+            background: #e0f7fa;
+            color: #006064;
+        }
+        .badge-match {
+            background: #fff3e0;
+            color: #e65100;
+        }
+        .badge-friendly {
+            background: #e8f5e9;
+            color: #1b5e20;
+        }
+
+        /* ========== NEWS PAGE ========== */
+        .news-hero {
+            background: linear-gradient(135deg, #0d0d0d 0%, #00363d 100%);
+            padding: 5rem 2rem 3rem;
+            text-align: center;
+        }
+        .news-hero h1 {
+            font-size: 3rem;
+            color: var(--white);
+            font-weight: 900;
+        }
+        .news-hero h1 span {
+            color: var(--aqua);
+        }
+
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+
+        .news-card {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+            border: 2px solid transparent;
+        }
+
+        .news-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--aqua);
+        }
+
+        .news-card-image {
+            width: 100%;
+            height: 220px;
+            background: linear-gradient(135deg, #003d45, #00838F);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            position: relative;
+        }
+
+        .news-card-image .news-date-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: var(--aqua);
+            color: var(--black);
+            padding: 0.4rem 0.9rem;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.8rem;
+            z-index: 2;
+        }
+
+        .news-card-body {
+            padding: 1.5rem;
+        }
+        .news-card-body .news-category {
+            color: var(--aqua-dark);
+            font-weight: 700;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .news-card-body h3 {
+            font-size: 1.3rem;
+            font-weight: 800;
+            margin: 0.5rem 0;
+            color: var(--black);
+        }
+        .news-card-body p {
+            color: #555;
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+        .news-card-body .read-more {
+            color: var(--aqua-dark);
+            font-weight: 700;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+        .news-card-body .read-more:hover {
+            color: var(--black);
+        }
+
+        /* ========== STAFF PAGE ========== */
+        .staff-hero {
+            background: linear-gradient(135deg, #0d0d0d 0%, #00363d 100%);
+            padding: 5rem 2rem 3rem;
+            text-align: center;
+        }
+        .staff-hero h1 {
+            font-size: 3rem;
+            color: var(--white);
+            font-weight: 900;
+        }
+        .staff-hero h1 span {
+            color: var(--aqua);
+        }
+
+        .staff-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+
+        .staff-card {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+            text-align: center;
+            border: 2px solid transparent;
+        }
+        .staff-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--aqua);
+        }
+
+        .staff-avatar {
+            width: 100%;
+            height: 260px;
+            background: linear-gradient(135deg, #003d45, #006064);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5rem;
+            position: relative;
+        }
+
+        .staff-avatar .staff-role-badge {
+            position: absolute;
+            bottom: -18px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--aqua);
+            color: var(--black);
+            padding: 0.5rem 1.4rem;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            z-index: 2;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .staff-card-body {
+            padding: 2rem 1.2rem 1.5rem;
+        }
+        .staff-card-body h3 {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--black);
+        }
+        .staff-card-body .staff-title {
+            color: var(--aqua-dark);
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin: 0.3rem 0;
+        }
+        .staff-card-body p {
+            color: #666;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+        .staff-social {
+            display: flex;
+            gap: 0.6rem;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+        .staff-social a {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: var(--aqua-pale);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: var(--aqua-deep);
+            font-weight: 700;
+            transition: var(--transition);
+            font-size: 0.85rem;
+        }
+        .staff-social a:hover {
+            background: var(--aqua);
+            color: var(--black);
+            box-shadow: 0 0 15px rgba(0, 188, 212, 0.35);
+        }
+
+        /* ========== FOOTER ========== */
+        .footer {
+            background: var(--black);
+            color: #ccc;
+            padding: 4rem 2rem 2rem;
+            border-top: 3px solid var(--aqua);
+        }
+
+        .footer-grid {
+            max-width: 1300px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-brand h3 {
+            color: var(--aqua);
+            font-size: 1.6rem;
+            font-weight: 800;
+            margin-bottom: 0.8rem;
+        }
+        .footer-brand p {
+            color: #999;
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        .footer-links h4 {
+            color: var(--aqua);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .footer-links ul {
+            list-style: none;
+        }
+        .footer-links ul li {
+            margin-bottom: 0.6rem;
+        }
+        .footer-links ul li a {
+            color: #aaa;
+            text-decoration: none;
+            transition: var(--transition);
+            font-size: 0.9rem;
+        }
+        .footer-links ul li a:hover {
+            color: var(--aqua);
+            padding-left: 5px;
+        }
+
+        .footer-bottom {
+            max-width: 1300px;
+            margin: 0 auto;
+            border-top: 1px solid #333;
+            padding-top: 1.5rem;
+            text-align: center;
+            color: #777;
+            font-size: 0.85rem;
+        }
+
+        /* ========== MOBILE NAV MENU ========== */
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 280px;
+            height: 100vh;
+            background: var(--black-soft);
+            z-index: 999;
+            padding: 6rem 2rem 2rem;
+            transition: var(--transition);
+            box-shadow: -10px 0 40px rgba(0, 0, 0, 0.6);
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+
+        .mobile-menu.active {
+            right: 0;
+        }
+        .mobile-menu a {
+            display: block;
+            padding: 1rem 1.2rem;
+            color: #ccc;
+            text-decoration: none;
+            font-weight: 600;
+            border-radius: var(--radius-sm);
+            transition: var(--transition);
+            font-size: 1rem;
+        }
+        .mobile-menu a:hover,
+        .mobile-menu a.active-mob {
+            background: var(--aqua);
+            color: var(--black);
+        }
+
+        .mobile-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 998;
+            display: none;
+        }
+        .mobile-overlay.active {
+            display: block;
+        }
+       /* ========== GALLERY PAGE ========== */
+.gallery-hero {
+    background: linear-gradient(135deg, #0d0d0d 0%, #00363d 100%);
+    padding: 5rem 2rem 3rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.gallery-hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(circle at 20% 30%, rgba(0, 188, 212, 0.18), transparent 45%),
+        radial-gradient(circle at 80% 70%, rgba(0, 188, 212, 0.12), transparent 45%);
+}
+
+.gallery-hero h1 {
+    position: relative;
+    font-size: 3rem;
+    color: var(--white);
+    font-weight: 900;
+}
+
+.gallery-hero h1 span {
+    color: var(--aqua);
+}
+
+.gallery-hero p {
+    position: relative;
+    color: #bbb;
+    font-size: 1.1rem;
+    margin-top: 0.5rem;
+}
+
+.gallery-page-section {
+    background: var(--black);
+}
+
+.gallery-filter-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 0.7rem;
+    flex-wrap: wrap;
+    margin-bottom: 2.5rem;
+}
+
+.gallery-filter-btn {
+    padding: 0.7rem 1.5rem;
+    border-radius: 25px;
+    border: 2px solid var(--aqua);
+    background: transparent;
+    color: var(--aqua);
+    font-weight: 700;
+    cursor: pointer;
+    transition: var(--transition);
+    font-size: 0.95rem;
+}
+
+.gallery-filter-btn:hover,
+.gallery-filter-btn.active-gallery-filter {
+    background: var(--aqua);
+    color: var(--black);
+    box-shadow: 0 0 20px rgba(0, 188, 212, 0.35);
+    transform: translateY(-3px);
+}
+
+.gallery-page-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.2rem;
+}
+
+.gallery-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius-lg);
+    min-height: 260px;
+    background: var(--black-light);
+    cursor: pointer;
+    box-shadow: var(--shadow-md);
+    transition: var(--transition);
+}
+
+.gallery-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 50px rgba(0, 188, 212, 0.35);
+}
+
+.gallery-card.large {
+    grid-column: span 2;
+    min-height: 320px;
+}
+
+.gallery-card.tall {
+    grid-row: span 2;
+    min-height: 540px;
+}
+
+.gallery-photo-placeholder {
+    width: 100%;
+    height: 100%;
+    min-height: inherit;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+    transition: var(--transition);
+}
+
+.gallery-card:hover .gallery-photo-placeholder {
+    transform: scale(1.08);
+}
+
+.gallery-photo-1 {
+    background: linear-gradient(135deg, #00363d, #006064);
+}
+
+.gallery-photo-2 {
+    background: linear-gradient(135deg, #004d55, #00838F);
+}
+
+.gallery-photo-3 {
+    background: linear-gradient(135deg, #002a30, #00ACC1);
+}
+
+.gallery-photo-4 {
+    background: linear-gradient(135deg, #003d45, #0097A7);
+}
+
+.gallery-photo-5 {
+    background: linear-gradient(135deg, #001f24, #00BCD4);
+}
+
+.gallery-photo-6 {
+    background: linear-gradient(135deg, #00333a, #26C6DA);
+}
+
+.gallery-photo-7 {
+    background: linear-gradient(135deg, #00262b, #00838F);
+}
+
+.gallery-photo-8 {
+    background: linear-gradient(135deg, #003d45, #4DD0E1);
+}
+
+.gallery-photo-9 {
+    background: linear-gradient(135deg, #001f24, #006064);
+}
+
+.gallery-card-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.25), transparent);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 1.5rem;
+    opacity: 0;
+    transition: var(--transition);
+}
+
+.gallery-card:hover .gallery-card-overlay {
+    opacity: 1;
+}
+
+.gallery-card-overlay .gallery-category {
+    display: inline-block;
+    width: fit-content;
+    background: var(--aqua);
+    color: var(--black);
+    padding: 0.3rem 0.9rem;
+    border-radius: 18px;
+    font-weight: 800;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    margin-bottom: 0.7rem;
+}
+
+.gallery-card-overlay h3 {
+    color: var(--white);
+    font-size: 1.3rem;
+    font-weight: 800;
+    margin-bottom: 0.3rem;
+}
+
+.gallery-card-overlay p {
+    color: #ccc;
+    font-size: 0.95rem;
+}
+
+.gallery-card.hide-gallery-item {
+    display: none;
+}
+
+/* Gallery responsive */
+@media (max-width: 1024px) {
+    .gallery-page-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .gallery-card.large {
+        grid-column: span 2;
+    }
+}
+
+@media (max-width: 768px) {
+    .gallery-hero h1 {
+        font-size: 2rem;
+    }
+
+    .gallery-page-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.9rem;
+    }
+
+    .gallery-card,
+    .gallery-card.large,
+    .gallery-card.tall {
+        grid-column: span 1;
+        grid-row: span 1;
+        min-height: 240px;
+    }
+
+    .gallery-card.large {
+        grid-column: span 2;
+    }
+
+    .gallery-filter-btn {
+        padding: 0.6rem 1.1rem;
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .gallery-page-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .gallery-card.large {
+        grid-column: span 1;
+    }
+
+    .gallery-card {
+        min-height: 230px;
+    }
+
+    .gallery-card-overlay {
+        opacity: 1;
+        padding: 1.2rem;
+    }
+
+    .gallery-photo-placeholder {
+        font-size: 3.2rem;
+    }
+}
+
+        /* ========== RESPONSIVE ========== */
+        @media (max-width: 1024px) {
+            .gallery-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            .staff-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            .news-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .about-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            .hero-content h1 {
+                font-size: 3rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            .hamburger {
+                display: flex;
+            }
+            .gallery-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .gallery-item.wide {
+                grid-column: span 2;
+            }
+            .gallery-item.tall {
+                grid-row: span 1;
+            }
+            .staff-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .news-grid {
+                grid-template-columns: 1fr;
+            }
+            .hero-content h1 {
+                font-size: 2.4rem;
+            }
+            .hero-content .hero-subtitle {
+                font-size: 1rem;
+            }
+            .section-header h2 {
+                font-size: 2rem;
+            }
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            .about-stats {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 0.8rem;
+            }
+            .stat-card {
+                padding: 1rem;
+            }
+            .stat-card .stat-number {
+                font-size: 1.8rem;
+            }
+           
+            .schedule-hero h1,
+.news-hero h1,
+.staff-hero h1,
+.gallery-hero h1 {
+    font-size: 2rem;
+}
+        }
+
+        @media (max-width: 480px) {
+            .gallery-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 0.6rem;
+            }
+            .gallery-item.wide {
+                grid-column: span 2;
+            }
+            .staff-grid {
+                grid-template-columns: 1fr;
+            }
+            .hero-content h1 {
+                font-size: 1.9rem;
+            }
+            .btn {
+                padding: 0.7rem 1.4rem;
+                font-size: 0.9rem;
+            }
+            .about-stats {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 0.5rem;
+            }
+            .stat-card {
+                padding: 0.8rem;
+            }
+            .stat-card .stat-number {
+                font-size: 1.5rem;
+            }
+            .stat-card .stat-label {
+                font-size: 0.7rem;
+            }
+            .section-container {
+                padding: 2.5rem 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ==================== NAVIGATION ==================== -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#" class="nav-logo" onclick="navigateTo('home')">
+                <div class="logo-icon">⚽</div>
+                AGACIRO<span>FA</span>
+            </a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#" class="active" data-page="home" onclick="navigateTo('home')">🏠 Home</a></li>
+                <li><a href="#" data-page="schedule" onclick="navigateTo('schedule')">📅 Schedule</a></li>
+                <li><a href="#" data-page="news" onclick="navigateTo('news')">📰 News</a></li>
+                <li><a href="#" data-page="staff" onclick="navigateTo('staff')"> Staff</a></li>
+                <li><a href="#" data-page="gallery" onclick="navigateTo('gallery')">📷 Gallery</a></li>
+            </ul>
+            <div class="hamburger" id="hamburger" onclick="toggleMobileMenu()">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-overlay" id="mobileOverlay" onclick="toggleMobileMenu()"></div>
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="#" class="active-mob" data-page="home" onclick="navigateTo('home'); toggleMobileMenu();">🏠 Home</a>
+        <a href="#" data-page="schedule" onclick="navigateTo('schedule'); toggleMobileMenu();">📅 Schedule</a>
+        <a href="#" data-page="news" onclick="navigateTo('news'); toggleMobileMenu();">📰 News</a>
+        <a href="#" data-page="staff" onclick="navigateTo('staff'); toggleMobileMenu();">👥 Staff</a>
+        <a href="#" data-page="gallery" onclick="navigateTo('gallery'); toggleMobileMenu();">📷 Gallery</a>
+    </div>
+
+    <!-- ==================== HOME PAGE ==================== -->
+    <div class="page-section active-page" id="page-home">
+        <!-- Hero -->
+        <section class="hero" id="hero">
+            <div class="hero-bg"></div>
+            <div class="hero-pattern"></div>
+            <div class="hero-grid-overlay"></div>
+            <div class="hero-content">
+                <div class="hero-badge">⭐ Elite Football Academy</div>
+                <h1>Welcome to <span class="aqua-text">AGACIRO</span><br>Football Academy</h1>
+                <p class="hero-subtitle">Forging champions, building character, and shaping the future of football — one
+                    talent at a time since 2010.</p>
+                <div class="hero-buttons">
+                    <a href="#" class="btn btn-aqua" onclick="navigateTo('schedule')">📅 View Schedule</a>
+                    <a href="#" class="btn btn-outline" onclick="navigateTo('staff')">👥 Meet Our Staff</a>
+                </div>
+            </div>
+            <div class="hero-scroll-indicator" onclick="document.getElementById('about-section').scrollIntoView({behavior:'smooth'})">
+                <span>↓</span>
+            </div>
+        </section>
+
+        <!-- About / Portfolio -->
+        <section class="about-section" id="about-section">
+            <div class="section-container">
+                <div class="section-header">
+                    <span class="section-tag">About Us</span>
+                    <h2>Building <span class="aqua-highlight">Champions</span> Since 2010</h2>
+                    <div class="section-line"></div>
+                    <p>AGACIRO Football Academy is dedicated to nurturing raw talent into world-class athletes through
+                        discipline, passion, and expert coaching.</p>
+                </div>
+                <div class="about-grid">
+                    <div class="about-image-wrapper">
+                        <div class="about-image-placeholder">
+                            <span class="placeholder-icon">⚽</span>
+                        </div>
+                        <div class="about-image-badge">🏆 Established 2010</div>
+                    </div>
+                    <div class="about-content">
+                        <span class="highlight-stat">🌟 Top-Rated Academy</span>
+                        <h3>Where Talent Meets Opportunity</h3>
+                        <p>At AGACIRO, we believe every young player deserves a chance to shine. Our state-of-the-art
+                            facilities and experienced coaching staff provide the perfect environment for growth,
+                            discipline, and excellence in football.</p>
+                        <p>We've produced over <strong>50 professional players</strong> who now compete in top leagues
+                            across Africa and Europe. Our holistic approach combines technical training, tactical
+                            education, physical conditioning, and mental fortitude.</p>
+                        <div class="about-stats">
+                            <div class="stat-card">
+                                <div class="stat-number">14+</div>
+                                <div class="stat-label">Years Active</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number">50+</div>
+                                <div class="stat-label">Pro Players</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number">300+</div>
+                                <div class="stat-label">Active Students</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gallery / Portfolio -->
+       <!-- ==================== GALLERY PAGE ==================== -->
+<div class="page-section" id="page-gallery">
+    <div class="gallery-hero">
+        <h1>📷 <span>Academy</span> Gallery</h1>
+        <p>Training moments, match highlights, trophies, facilities, and academy life.</p>
+    </div>
+
+    <section class="gallery-section" id="gallery-section">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-tag">Portfolio</span>
+                <h2>Academy <span style="color:var(--aqua);">Highlights</span></h2>
+                <div class="section-line"></div>
+                <p>Moments captured from training sessions, matches, tournaments, and academy life.</p>
+            </div>
+
+            <div class="gallery-grid">
+                <div class="gallery-item tall">
+                    <div class="gallery-placeholder gp-1">⚽</div>
+                    <div class="gallery-overlay">
+                        <h4>Training Drills</h4>
+                        <p>Intensive skill development</p>
+                    </div>
+                </div>
+
+                <div class="gallery-item wide">
+                    <div class="gallery-placeholder gp-2">🏟️</div>
+                    <div class="gallery-overlay">
+                        <h4>Main Stadium</h4>
+                        <p>Our world-class facility</p>
+                    </div>
+                </div>
+
+                <div class="gallery-item">
+                    <div class="gallery-placeholder gp-3">🥅</div>
+                    <div class="gallery-overlay">
+                        <h4>Goalkeeper Training</h4>
+                        <p>Specialized coaching</p>
+                    </div>
+                </div>
+
+                <div class="gallery-item">
+                    <div class="gallery-placeholder gp-4">🏃</div>
+                    <div class="gallery-overlay">
+                        <h4>Fitness Sessions</h4>
+                        <p>Peak conditioning</p>
+                    </div>
+                </div>
+
+                <div class="gallery-item">
+                    <div class="gallery-placeholder gp-5">👦</div>
+                    <div class="gallery-overlay">
+                        <h4>Youth Program</h4>
+                        <p>Ages 6-12 development</p>
+                    </div>
+                </div>
+
+                <div class="gallery-item tall">
+                    <div class="gallery-placeholder gp-6">🏆</div>
+                    <div class="gallery-overlay">
+                        <h4>Championship Win</h4>
+                        <p>2024 Regional Cup</p>
+                    </div>
+                </div>
+
+                <div class="gallery-item wide">
+                    <div class="gallery-placeholder gp-7">🎽</div>
+                    <div class="gallery-overlay">
+                        <h4>Team Photo</h4>
+                        <p>AGACIRO Senior Squad</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+    </div>
+
+    <!-- ==================== SCHEDULE PAGE ==================== -->
+    <div class="page-section" id="page-schedule">
+        <div class="schedule-hero">
+            <h1>📅 <span>Schedule</span> & Fixtures</h1>
+            <p>Training sessions, upcoming matches, and recent results</p>
+        </div>
+        <div class="section-container">
+            <div class="schedule-tabs">
+                <button class="schedule-tab active-tab" onclick="switchScheduleTab('all', this)">📋 All</button>
+                <button class="schedule-tab" onclick="switchScheduleTab('training', this)">🏋️ Training</button>
+                <button class="schedule-tab" onclick="switchScheduleTab('match', this)">⚔️ Matches</button>
+                <button class="schedule-tab" onclick="switchScheduleTab('friendly', this)">🤝 Friendlies</button>
+            </div>
+            <div class="schedule-table-wrapper">
+                <table class="schedule-table" id="scheduleTable">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Activity</th>
+                            <th>Type</th>
+                            <th>Location</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr data-type="training">
+                            <td>Mon, May 26</td>
+                            <td>07:00 - 09:00</td>
+                            <td>Morning Fitness & Conditioning</td>
+                            <td><span class="match-badge badge-training">Training</span></td>
+                            <td>Main Pitch</td>
+                            <td>✅ Scheduled</td>
+                        </tr>
+                        <tr data-type="training">
+                            <td>Tue, May 27</td>
+                            <td>15:00 - 17:30</td>
+                            <td>Technical Skills & Ball Control</td>
+                            <td><span class="match-badge badge-training">Training</span></td>
+                            <td>Training Ground B</td>
+                            <td>✅ Scheduled</td>
+                        </tr>
+                        <tr data-type="match">
+                            <td>Wed, May 28</td>
+                            <td>16:00</td>
+                            <td>AGACIRO vs Kigali United</td>
+                            <td><span class="match-badge badge-match">Match</span></td>
+                            <td>Main Stadium</td>
+                            <td>🔴 Upcoming</td>
+                        </tr>
+                        <tr data-type="training">
+                            <td>Thu, May 29</td>
+                            <td>07:00 - 09:00</td>
+                            <td>Tactical Formation Practice</td>
+                            <td><span class="match-badge badge-training">Training</span></td>
+                            <td>Main Pitch</td>
+                            <td>✅ Scheduled</td>
+                        </tr>
+                        <tr data-type="friendly">
+                            <td>Fri, May 30</td>
+                            <td>17:00</td>
+                            <td>AGACIRO vs Academy Espoir (Friendly)</td>
+                            <td><span class="match-badge badge-friendly">Friendly</span></td>
+                            <td>Espoir Grounds</td>
+                            <td>🟡 Pending</td>
+                        </tr>
+                        <tr data-type="training">
+                            <td>Sat, May 31</td>
+                            <td>09:00 - 11:30</td>
+                            <td>Goalkeeper Specialized Training</td>
+                            <td><span class="match-badge badge-training">Training</span></td>
+                            <td>GK Zone</td>
+                            <td>✅ Scheduled</td>
+                        </tr>
+                        <tr data-type="match">
+                            <td>Sun, Jun 1</td>
+                            <td>15:00</td>
+                            <td>AGACIRO vs Musanze FC</td>
+                            <td><span class="match-badge badge-match">Match</span></td>
+                            <td>Main Stadium</td>
+                            <td>🔴 Upcoming</td>
+                        </tr>
+                        <tr data-type="friendly">
+                            <td>Wed, Jun 4</td>
+                            <td>16:30</td>
+                            <td>AGACIRO U17 vs Select Academy</td>
+                            <td><span class="match-badge badge-friendly">Friendly</span></td>
+                            <td>Training Ground A</td>
+                            <td>🟡 Pending</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== NEWS PAGE ==================== -->
+    <div class="page-section" id="page-news">
+        <div class="news-hero">
+            <h1>📰 <span>Latest News</span> & Updates</h1>
+            <p style="color:#bbb; margin-top:0.5rem;">Stay informed with everything happening at AGACIRO</p>
+        </div>
+        <div class="section-container">
+            <div class="news-grid">
+                <div class="news-card">
+                    <div class="news-card-image">
+                        🏆
+                        <div class="news-date-badge">May 20, 2026</div>
+                    </div>
+                    <div class="news-card-body">
+                        <span class="news-category">Tournament</span>
+                        <h3>AGACIRO Wins Regional Cup 2026</h3>
+                        <p>Our senior team clinched the Regional Cup in a thrilling 3-2 victory over rivals Kigali
+                            United. A historic moment for the academy!</p>
+                        <a href="#" class="read-more">Read Full Story →</a>
+                    </div>
+                </div>
+                <div class="news-card">
+                    <div class="news-card-image">
+                        🎓
+                        <div class="news-date-badge">May 15, 2026</div>
+                    </div>
+                    <div class="news-card-body">
+                        <span class="news-category">Academy</span>
+                        <h3>New Scholarship Program Launched</h3>
+                        <p>AGACIRO announces 20 full scholarships for underprivileged talented youth. Applications open
+                            until June 30th.</p>
+                        <a href="#" class="read-more">Read Full Story →</a>
+                    </div>
+                </div>
+                <div class="news-card">
+                    <div class="news-card-image">
+                        ⚽
+                        <div class="news-date-badge">May 10, 2026</div>
+                    </div>
+                    <div class="news-card-body">
+                        <span class="news-category">Player Spotlight</span>
+                        <h3>Jean d'Amour Signs Pro Contract</h3>
+                        <p>Academy graduate Jean d'Amour (19) has signed a professional contract with a top European
+                            club. Another AGACIRO success story!</p>
+                        <a href="#" class="read-more">Read Full Story →</a>
+                    </div>
+                </div>
+                <div class="news-card">
+                    <div class="news-card-image">
+                        🏗️
+                        <div class="news-date-badge">May 5, 2026</div>
+                    </div>
+                    <div class="news-card-body">
+                        <span class="news-category">Facilities</span>
+                        <h3>New Indoor Training Complex Opens</h3>
+                        <p>State-of-the-art indoor facility now operational, featuring advanced equipment and all-weather
+                            training capability.</p>
+                        <a href="#" class="read-more">Read Full Story →</a>
+                    </div>
+                </div>
+                <div class="news-card">
+                    <div class="news-card-image">
+                        🤝
+                        <div class="news-date-badge">Apr 28, 2026</div>
+                    </div>
+                    <div class="news-card-body">
+                        <span class="news-category">Partnership</span>
+                        <h3>Partnership with European Academy</h3>
+                        <p>AGACIRO signs exchange program with a renowned European academy, opening doors for player
+                            development abroad.</p>
+                        <a href="#" class="read-more">Read Full Story →</a>
+                    </div>
+                </div>
+                <div class="news-card">
+                    <div class="news-card-image">
+                        📋
+                        <div class="news-date-badge">Apr 20, 2026</div>
+                    </div>
+                    <div class="news-card-body">
+                        <span class="news-category">Trials</span>
+                        <h3>Open Trials Announcement</h3>
+                        <p>Annual open trials scheduled for June 15-20. Young talents aged 8-18 are invited to showcase
+                            their skills.</p>
+                        <a href="#" class="read-more">Read Full Story →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== STAFF PAGE ==================== -->
+    <div class="page-section" id="page-staff">
+        <div class="staff-hero">
+            <h1>👥 <span>Academy</span> Staff</h1>
+            <p style="color:#bbb; margin-top:0.5rem;">Meet the dedicated professionals behind AGACIRO's success</p>
+        </div>
+        <div class="section-container">
+            <div class="staff-grid">
+                <div class="staff-card">
+                    <div class="staff-avatar">
+                        👨‍💼
+                        <div class="staff-role-badge">Head Coach</div>
+                    </div>
+                    <div class="staff-card-body">
+                        <h3>Coach Mugisha</h3>
+                        <p class="staff-title">UEFA A Licensed • 15+ Years Exp.</p>
+                        <p>Former national team player with extensive coaching experience across Africa and Europe.</p>
+                        <div class="staff-social">
+                            <a href="#" title="LinkedIn">in</a>
+                            <a href="#" title="Email">@</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="staff-card">
+                    <div class="staff-avatar">
+                        🧑‍🏫
+                        <div class="staff-role-badge">Assistant Coach</div>
+                    </div>
+                    <div class="staff-card-body">
+                        <h3>Coach Uwimana</h3>
+                        <p class="staff-title">CAF B Licensed • 10 Years Exp.</p>
+                        <p>Specialist in youth development and tactical analysis. Passionate about nurturing young
+                            talent.</p>
+                        <div class="staff-social">
+                            <a href="#" title="LinkedIn">in</a>
+                            <a href="#" title="Email">@</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="staff-card">
+                    <div class="staff-avatar">
+                        🧤
+                        <div class="staff-role-badge">Goalkeeper Coach</div>
+                    </div>
+                    <div class="staff-card-body">
+                        <h3>Coach Habimana</h3>
+                        <p class="staff-title">GK Specialist • 12 Years Exp.</p>
+                        <p>Dedicated goalkeeper trainer who has produced 5 professional-level goalkeepers from the
+                            academy.</p>
+                        <div class="staff-social">
+                            <a href="#" title="LinkedIn">in</a>
+                            <a href="#" title="Email">@</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="staff-card">
+                    <div class="staff-avatar">
+                        💪
+                        <div class="staff-role-badge">Fitness Coach</div>
+                    </div>
+                    <div class="staff-card-body">
+                        <h3>Coach Niyonzima</h3>
+                        <p class="staff-title">Sports Science Degree • 8 Years Exp.</p>
+                        <p>Expert in athletic performance, injury prevention, and conditioning programs for elite
+                            athletes.</p>
+                        <div class="staff-social">
+                            <a href="#" title="LinkedIn">in</a>
+                            <a href="#" title="Email">@</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="staff-card">
+                    <div class="staff-avatar">
+                        🧑‍⚕️
+                        <div class="staff-role-badge">Team Physio</div>
+                    </div>
+                    <div class="staff-card-body">
+                        <h3>Dr. Mukamana</h3>
+                        <p class="staff-title">Physiotherapist • 9 Years Exp.</p>
+                        <p>Specialized in sports physiotherapy and rehabilitation, ensuring players stay fit and
+                            healthy.</p>
+                        <div class="staff-social">
+                            <a href="#" title="LinkedIn">in</a>
+                            <a href="#" title="Email">@</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="staff-card">
+                    <div class="staff-avatar">
+                        📋
+                        <div class="staff-role-badge">Academy Director</div>
+                    </div>
+                    <div class="staff-card-body">
+                        <h3>Mr. Rutayisire</h3>
+                        <p class="staff-title">MBA • 20+ Years in Football Mgmt</p>
+                        <p>Visionary leader who founded AGACIRO in 2010 and built it into one of the region's top
+                            academies.</p>
+                        <div class="staff-social">
+                            <a href="#" title="LinkedIn">in</a>
+                            <a href="#" title="Email">@</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="staff-card">
+                    <div class="staff-avatar">
+                        🧠
+                        <div class="staff-role-badge">Mental Coach</div>
+                    </div>
+                    <div class="staff-card-body">
+                        <h3>Coach Ingabire</h3>
+                        <p class="staff-title">Sports Psychologist • 7 Years Exp.</p>
+                        <p>Helps players develop mental resilience, focus, and the winning mindset needed for
+                            professional football.</p>
+                        <div class="staff-social">
+                            <a href="#" title="LinkedIn">in</a>
+                            <a href="#" title="Email">@</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="staff-card">
+                    <div class="staff-avatar">
+                        🍎
+                        <div class="staff-role-badge">Nutritionist</div>
+                    </div>
+                    <div class="staff-card-body">
+                        <h3>Ms. Uwase</h3>
+                        <p class="staff-title">Registered Dietitian • 6 Years Exp.</p>
+                        <p>Designs personalized nutrition plans to optimize player performance and recovery.</p>
+                        <div class="staff-social">
+                            <a href="#" title="LinkedIn">in</a>
+                            <a href="#" title="Email">@</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== GALLERY PAGE ==================== -->
+<div class="page-section" id="page-gallery">
+    <div class="gallery-hero">
+        <h1>📷 <span>Academy</span> Gallery</h1>
+        <p>Explore training sessions, match days, trophies, facilities, and academy moments.</p>
+    </div>
+
+    <section class="gallery-page-section">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-tag">Our Moments</span>
+                <h2 style="color: var(--white);">AGACIRO <span style="color:var(--aqua);">Highlights</span></h2>
+                <div class="section-line"></div>
+                <p style="color:#aaa;">A collection of our best academy memories and football development moments.</p>
+            </div>
+
+            <div class="gallery-filter-tabs">
+                <button class="gallery-filter-btn active-gallery-filter" onclick="filterGallery('all', this)">📋 All</button>
+                <button class="gallery-filter-btn" onclick="filterGallery('training', this)">⚽ Training</button>
+                <button class="gallery-filter-btn" onclick="filterGallery('matches', this)">🏟️ Matches</button>
+                <button class="gallery-filter-btn" onclick="filterGallery('trophies', this)">🏆 Trophies</button>
+                <button class="gallery-filter-btn" onclick="filterGallery('academy', this)">👦 Academy Life</button>
+            </div>
+
+            <div class="gallery-page-grid">
+                <div class="gallery-card large" data-gallery="training">
+                    <div class="gallery-photo-placeholder gallery-photo-1">⚽</div>
+                    <div class="gallery-card-overlay">
+                        <span class="gallery-category">Training</span>
+                        <h3>Technical Ball Control</h3>
+                        <p>Young players improving first touch, passing, and movement.</p>
+                    </div>
+                </div>
+
+                <div class="gallery-card" data-gallery="matches">
+                    <div class="gallery-photo-placeholder gallery-photo-2">🏟️</div>
+                    <div class="gallery-card-overlay">
+                        <span class="gallery-category">Match Day</span>
+                        <h3>Main Stadium Action</h3>
+                        <p>Competitive fixtures at our academy ground.</p>
+                    </div>
+                </div>
+
+                <div class="gallery-card tall" data-gallery="trophies">
+                    <div class="gallery-photo-placeholder gallery-photo-3">🏆</div>
+                    <div class="gallery-card-overlay">
+                        <span class="gallery-category">Trophies</span>
+                        <h3>Regional Cup Victory</h3>
+                        <p>Celebrating success, discipline, and teamwork.</p>
+                    </div>
+                </div>
+
+                <div class="gallery-card" data-gallery="training">
+                    <div class="gallery-photo-placeholder gallery-photo-4">🥅</div>
+                    <div class="gallery-card-overlay">
+                        <span class="gallery-category">Training</span>
+                        <h3>Goalkeeper Session</h3>
+                        <p>Specialized drills for reflexes and positioning.</p>
+                    </div>
+                </div>
+
+                <div class="gallery-card" data-gallery="academy">
+                    <div class="gallery-photo-placeholder gallery-photo-5">👦</div>
+                    <div class="gallery-card-overlay">
+                        <span class="gallery-category">Academy Life</span>
+                        <h3>Youth Development</h3>
+                        <p>Building confidence in young football talents.</p>
+                    </div>
+                </div>
+
+                <div class="gallery-card large" data-gallery="matches">
+                    <div class="gallery-photo-placeholder gallery-photo-6">🎽</div>
+                    <div class="gallery-card-overlay">
+                        <span class="gallery-category">Match Day</span>
+                        <h3>Senior Squad Lineup</h3>
+                        <p>AGACIRO players ready for a competitive fixture.</p>
+                    </div>
+                </div>
+
+                <div class="gallery-card" data-gallery="training">
+                    <div class="gallery-photo-placeholder gallery-photo-7">🏃</div>
+                    <div class="gallery-card-overlay">
+                        <span class="gallery-category">Training</span>
+                        <h3>Fitness Conditioning</h3>
+                        <p>Speed, endurance, agility, and strength sessions.</p>
+                    </div>
+                </div>
+
+                <div class="gallery-card" data-gallery="academy">
+                    <div class="gallery-photo-placeholder gallery-photo-8">🤝</div>
+                    <div class="gallery-card-overlay">
+                        <span class="gallery-category">Academy Life</span>
+                        <h3>Team Brotherhood</h3>
+                        <p>Discipline, respect, and unity beyond football.</p>
+                    </div>
+                </div>
+
+                <div class="gallery-card large" data-gallery="trophies">
+                    <div class="gallery-photo-placeholder gallery-photo-9">⭐</div>
+                    <div class="gallery-card-overlay">
+                        <span class="gallery-category">Achievement</span>
+                        <h3>Player of the Month</h3>
+                        <p>Recognizing hard work and outstanding performance.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="footer">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <h3>⚽ AGACIRO FA</h3>
+                <p>Forging champions, building character, and shaping the future of football. Join us on our journey to
+                    excellence.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#" onclick="navigateTo('home')">Home</a></li>
+                    <li><a href="#" onclick="navigateTo('schedule')">Schedule</a></li>
+                    <li><a href="#" onclick="navigateTo('news')">News</a></li>
+                    <li><a href="#" onclick="navigateTo('staff')">Staff</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Programs</h4>
+                <ul>
+                    <li><a href="#">Youth Academy (Ages 6-12)</a></li>
+                    <li><a href="#">Junior Program (Ages 13-15)</a></li>
+                    <li><a href="#">Senior Squad (Ages 16-20)</a></li>
+                    <li><a href="#">Goalkeeper Academy</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Contact</h4>
+                <ul>
+                    <li><a href="#">📧 info@agacirofa.com</a></li>
+                    <li><a href="#">📞 +250 788 000 000</a></li>
+                    <li><a href="#">📍 Kigali, Rwanda</a></li>
+                    <li><a href="#">🌐 www.agacirofa.com</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 AGACIRO Football Academy. All Rights Reserved. | Designed with ❤️</p>
+        </div>
+    </footer>
+
+    <!-- ==================== SCRIPTS ==================== -->
+    <script>
+        // --- Navigation ---
+        function navigateTo(pageName) {
+            // Hide all page sections
+            document.querySelectorAll('.page-section').forEach(section => {
+                section.classList.remove('active-page');
+            });
+            // Show target page
+            const targetPage = document.getElementById('page-' + pageName);
+            if (targetPage) {
+                targetPage.classList.add('active-page');
+            }
+
+            // Update nav links active state
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('data-page') === pageName) {
+                    link.classList.add('active');
+                }
+            });
+
+            // Update mobile menu
+            document.querySelectorAll('.mobile-menu a').forEach(link => {
+                link.classList.remove('active-mob');
+                if (link.getAttribute('data-page') === pageName) {
+                    link.classList.add('active-mob');
+                }
+            });
+
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            // Close mobile menu if open
+            const mobileMenu = document.getElementById('mobileMenu');
+            const mobileOverlay = document.getElementById('mobileOverlay');
+            const hamburger = document.getElementById('hamburger');
+            if (mobileMenu.classList.contains('active')) {
+                mobileMenu.classList.remove('active');
+                mobileOverlay.classList.remove('active');
+                hamburger.classList.remove('active');
+            }
+        }
+
+        // --- Mobile Menu Toggle ---
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const mobileOverlay = document.getElementById('mobileOverlay');
+            const hamburger = document.getElementById('hamburger');
+
+            mobileMenu.classList.toggle('active');
+            mobileOverlay.classList.toggle('active');
+            hamburger.classList.toggle('active');
+        }
+
+        // --- Navbar Scroll Effect ---
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // --- Schedule Tab Filter ---
+        function switchScheduleTab(type, btn) {
+            // Update active tab button
+            document.querySelectorAll('.schedule-tab').forEach(tab => {
+                tab.classList.remove('active-tab');
+            });
+            btn.classList.add('active-tab');
+
+            // Filter table rows
+            const rows = document.querySelectorAll('#scheduleTable tbody tr');
+            rows.forEach(row => {
+                if (type === 'all') {
+                    row.style.display = '';
+                } else {
+                    if (row.getAttribute('data-type') === type) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                }
+            });
+        }
+
+        // --- Initialize on page load ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // Ensure home page is visible
+            navigateTo('home');
+
+            // Handle initial hash in URL
+            const hash = window.location.hash.replace('#', '');
+           if (hash && ['home', 'schedule', 'news', 'staff', 'gallery'].includes(hash)) {
+    navigateTo(hash);
+}
+        });
+
+        // --- Handle browser back/forward ---
+        window.addEventListener('hashchange', () => {
+            const hash = window.location.hash.replace('#', '');
+           if (hash && ['home', 'schedule', 'news', 'staff', 'gallery'].includes(hash)) {
+    navigateTo(hash);
+}
+        });
+
+        // --- Update URL hash on navigation ---
+        const originalNavigateTo = navigateTo;
+        navigateTo = function(pageName) {
+            window.location.hash = pageName;
+            originalNavigateTo(pageName);
+        };
+
+        // --- Gallery Filter ---
+function filterGallery(type, btn) {
+    document.querySelectorAll('.gallery-filter-btn').forEach(button => {
+        button.classList.remove('active-gallery-filter');
+    });
+
+    btn.classList.add('active-gallery-filter');
+
+    document.querySelectorAll('.gallery-card').forEach(card => {
+        const category = card.getAttribute('data-gallery');
+
+        if (type === 'all' || category === type) {
+            card.classList.remove('hide-gallery-item');
+        } else {
+            card.classList.add('hide-gallery-item');
+        }
+    });
+}
+    </script>
+</body>
+</html>

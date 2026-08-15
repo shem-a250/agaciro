@@ -1,0 +1,1312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AGACIRO Academy • Admin Dashboard</title>
+  <!-- Chart.js for performance charts -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="/css/dashboard.css">
+  <link rel="icon" href="images\agaciro logo.jpg" type="image/png">
+</head>
+<body>
+
+<!-- ==================== SIDEBAR ==================== -->
+<aside class="sidebar">
+  <div class="sidebar-brand">⚽ AGACIRO<span>FA</span></div>
+  <ul class="sidebar-nav">
+    <li><a href="#" class="active" data-page="overview"> Overview</a></li>
+    <li><a href="#" data-page="news"> Manage News</a></li>
+    <li><a href="#" data-page="images"> Manage Images</a></li>
+    <li><a href="#" data-page="staff"> Manage Staff</a></li>
+    <li><a href="#" data-page="schedule"> Schedule</a></li>
+    
+    
+  </ul>
+  <div class="sidebar-footer">© 2026 AGACIRO Admin</div>
+</aside>
+
+<!-- ==================== MAIN PANEL ==================== -->
+<div class="main" id="mainContent">
+
+  <!-- OVERVIEW PAGE -->
+  <div class="dashboard-page active" id="page-overview">
+    <div class="page-title"><span>📊</span> Dashboard Overview</div>
+    <div class="stats-grid" id="overviewStats"></div>
+  </div>
+
+  <!-- NEWS PAGE -->
+  <div class="dashboard-page" id="page-news">
+    <div class="page-title"><span>📰</span> News Management</div>
+    <div class="table-card">
+      <div class="table-header">
+        <h3>All News Articles</h3>
+        <button class="btn btn-aqua" onclick="openNewsModal()">+ Add News</button>
+      </div>
+      <table>
+        <thead><tr><th>Image</th><th>Title</th><th>Category</th><th>Date</th><th>Actions</th></tr></thead>
+        <tbody id="newsTableBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- IMAGES PAGE -->
+  <div class="dashboard-page" id="page-images">
+    <div class="page-title"><span>🖼️</span> Image Gallery Management</div>
+    <div class="table-card">
+      <div class="table-header">
+        <h3>All Gallery Images</h3>
+        <button class="btn btn-aqua" onclick="openImageModal()">+ Add Image</button>
+      </div>
+      <table>
+        <thead><tr><th>Preview</th><th>Title</th><th>Category</th><th>Description</th><th>Actions</th></tr></thead>
+        <tbody id="imageTableBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- STAFF PAGE -->
+  <div class="dashboard-page" id="page-staff">
+    <div class="page-title"><span>👥</span> Staff Management</div>
+    <div class="table-card">
+      <div class="table-header">
+        <h3>Academy Staff</h3>
+        <button class="btn btn-aqua" onclick="openStaffModal()">+ Add Staff</button>
+      </div>
+      <table>
+        <thead><tr><th>Avatar</th><th>Name</th><th>Role</th><th>Title</th><th>Actions</th></tr></thead>
+        <tbody id="staffTableBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- SCHEDULE PAGE -->
+  <div class="dashboard-page" id="page-schedule">
+    <div class="page-title"><span>📅</span> Training & Match Schedule</div>
+    <div class="table-card">
+      <div class="table-header">
+        <h3>Upcoming & Past Events</h3>
+        <button class="btn btn-aqua" onclick="openScheduleModal()">+ Add Event</button>
+      </div>
+      <table>
+        <thead><tr><th>Date</th><th>Time</th><th>Activity</th><th>Type</th><th>Location</th><th>Status</th><th>Actions</th></tr></thead>
+        <tbody id="scheduleTableBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- PERFORMANCE PAGE -->
+  <div class="dashboard-page" id="page-performance">
+    <div class="page-title"><span>📈</span> Performance Monitoring</div>
+    <div class="chart-container">
+      <h3 style="margin-bottom:1rem;">Monthly Training Attendance (2026)</h3>
+      <canvas id="attendanceChart" width="400" height="200"></canvas>
+    </div>
+    <div class="stats-grid" style="margin-top:1.5rem;">
+      <div class="stat-card"><h3 id="avgAttendance">0</h3><p>Avg Attendance/Month</p></div>
+      <div class="stat-card"><h3 id="playerCount">0</h3><p>Active Players</p></div>
+      <div class="stat-card"><h3 id="matchWinRate">0%</h3><p>Match Win Rate</p></div>
+    </div>
+  </div>
+
+  <!-- FEEDBACK PAGE -->
+  <div class="dashboard-page" id="page-feedback">
+    <div class="page-title"><span>💬</span> Visitor Feedback</div>
+    <div class="table-card">
+      <table>
+        <thead><tr><th>Name</th><th>Message</th><th>Rating</th><th>Date</th><th>Actions</th></tr></thead>
+        <tbody id="feedbackTableBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<!-- ========== MODALS ========== -->
+<!-- News Modal -->
+<div class="modal" id="newsModal">
+  <div class="modal-content">
+    <h3 id="newsModalTitle">Add News Article</h3>
+
+    <div class="form-group">
+      <label>Image URL or Emoji</label>
+      <input type="text" id="newsImage" placeholder="https://... or 🏆">
+    </div>
+
+    <div class="form-group">
+      <label>Title</label>
+      <input type="text" id="newsTitle" placeholder="Headline">
+    </div>
+
+    <div class="form-group">
+      <label>Category</label>
+      <select id="newsCategory">
+        <option>Tournament</option>
+        <option>Academy</option>
+        <option>Player Spotlight</option>
+        <option>Facilities</option>
+        <option>Partnership</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Description</label>
+      <textarea id="newsDescription" rows="4" placeholder="Write news description..."></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>Date</label>
+      <input type="date" id="newsDate">
+    </div>
+
+    <input type="hidden" id="newsEditId">
+
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeNewsModal()">Cancel</button>
+      <button class="btn btn-aqua" onclick="saveNews()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- Images Modal -->
+<div class="modal" id="imageModal">
+  <div class="modal-content">
+    <h3 id="imageModalTitle">Add Image</h3>
+
+  <div class="form-group">
+  <label>Select Image</label>
+  <input
+    type="file"
+    id="imageFile"
+    accept="image/png,image/jpeg,image/jpg,image/webp"
+  >
+</div>
+
+    <div class="form-group">
+      <label>Title</label>
+      <input type="text" id="imageTitle" placeholder="Image title">
+    </div>
+
+    <div class="form-group">
+      <label>Category</label>
+      <select id="imageCategory">
+        <option>training</option>
+        <option>matches</option>
+        <option>trophies</option>
+        <option>academy</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Description</label>
+      <textarea id="imageDescription" rows="4" placeholder="Write image description..."></textarea>
+    </div>
+
+    <input type="hidden" id="imageEditId">
+
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeImageModal()">Cancel</button>
+      <button class="btn btn-aqua" onclick="saveImage()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- Staff Modal -->
+<div class="modal" id="staffModal">
+  <div class="modal-content">
+    <h3 id="staffModalTitle">Add Staff Member</h3>
+    <div class="form-group"><label>Avatar (emoji or URL)</label><input type="text" id="staffAvatar" placeholder="👨‍💼"></div>
+    <div class="form-group"><label>Name</label><input type="text" id="staffName" placeholder="Full name"></div>
+    <div class="form-group"><label>Role</label><input type="text" id="staffRole" placeholder="e.g. Head Coach"></div>
+    <div class="form-group"><label>Experience</label><input type="text" id="staffExp" placeholder="10+ years"></div>
+    <input type="hidden" id="staffEditId">
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeStaffModal()">Cancel</button>
+      <button class="btn btn-aqua" onclick="saveStaff()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- Schedule Modal -->
+<div class="modal" id="scheduleModal">
+  <div class="modal-content">
+    <h3 id="scheduleModalTitle">Add Schedule Event</h3>
+    <div class="form-group"><label>Date</label><input type="date" id="schedDate"></div>
+    <div class="form-group"><label>Time</label><input type="text" id="schedTime" placeholder="07:00 - 09:00"></div>
+    <div class="form-group"><label>Activity</label><input type="text" id="schedActivity" placeholder="Training / Match"></div>
+    <div class="form-group"><label>Type</label>
+      <select id="schedType"><option>Training</option><option>Match</option><option>Friendly</option></select>
+    </div>
+    <div class="form-group"><label>Location</label><input type="text" id="schedLocation" placeholder="Main Pitch"></div>
+    <div class="form-group"><label>Status</label>
+      <select id="schedStatus"><option>Scheduled</option><option>Upcoming</option><option>Pending</option><option>Completed</option></select>
+    </div>
+    <input type="hidden" id="schedEditId">
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeScheduleModal()">Cancel</button>
+      <button class="btn btn-aqua" onclick="saveSchedule()">Save</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ---------- DATA STORE ----------
+  const STORAGE_KEYS = {
+    news: 'agaciro_news',
+    staff: 'agaciro_staff',
+    schedule: 'agaciro_schedule',
+    feedback: 'agaciro_feedback'
+  };
+
+  // Default demo data
+  const defaultNews = [
+    { id: 1, image: '🏆', title: 'AGACIRO Wins Regional Cup 2026', category: 'Tournament', date: '2026-05-20' },
+    { id: 2, image: '🎓', title: 'New Scholarship Program Launched', category: 'Academy', date: '2026-05-15' },
+    { id: 3, image: '⚽', title: 'Jean d\'Amour Signs Pro Contract', category: 'Player Spotlight', date: '2026-05-10' }
+  ];
+  const defaultStaff = [
+    { id: 1, avatar: '👨‍💼', name: 'Coach Mugisha', role: 'Head Coach', experience: 'UEFA A • 15+ yrs' },
+    { id: 2, avatar: '🧑‍🏫', name: 'Coach Uwimana', role: 'Assistant Coach', experience: 'CAF B • 10 yrs' },
+    { id: 3, avatar: '🧤', name: 'Coach Habimana', role: 'Goalkeeper Coach', experience: '12 yrs' }
+  ];
+  const defaultSchedule = [
+    { id: 1, date: '2026-05-26', time: '07:00-09:00', activity: 'Morning Fitness', type: 'Training', location: 'Main Pitch', status: 'Scheduled' },
+    { id: 2, date: '2026-05-28', time: '16:00', activity: 'AGACIRO vs Kigali United', type: 'Match', location: 'Main Stadium', status: 'Upcoming' },
+    { id: 3, date: '2026-06-01', time: '15:00', activity: 'AGACIRO vs Musanze FC', type: 'Match', location: 'Main Stadium', status: 'Upcoming' }
+  ];
+  const defaultFeedback = [
+    { id: 1, name: 'Eric M.', message: 'Great academy! My son improved so much.', rating: 5, date: '2026-05-10' },
+    { id: 2, name: 'Grace U.', message: 'Excellent coaching staff, highly recommended.', rating: 4, date: '2026-05-12' },
+    { id: 3, name: 'Patrick K.', message: 'Need more weekend sessions.', rating: 3, date: '2026-05-15' }
+  ];
+
+  // Helper functions
+  function getData(key) {
+    const stored = localStorage.getItem(key);
+    return stored ? JSON.parse(stored) : null;
+  }
+  function setData(key, data) {
+    localStorage.setItem(key, JSON.stringify(data));
+  }
+  function initData() {
+    // Only initialize feedback in localStorage since it isn't connected to the database yet.
+    // News, staff, and schedule are now fetched directly from MongoDB!
+    if (!getData(STORAGE_KEYS.feedback)) setData(STORAGE_KEYS.feedback, defaultFeedback);
+  }
+
+  // Helper to prevent Cross-Site Scripting (XSS)
+  function escapeHTML(str) {
+    return String(str || "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
+
+  // ---------- RENDER FUNCTIONS ----------
+ async function renderOverview() {
+  const newsCount = await getNewsCount();
+  const staffCount = await getStaffCount();
+  const scheduleCount = await getScheduleCount();
+
+  const feedback = getData(STORAGE_KEYS.feedback) || [];
+
+  const html = `
+    <div class="stat-card"><h3>${newsCount}</h3><p>News Articles</p></div>
+    <div class="stat-card"><h3>${staffCount}</h3><p>Staff Members</p></div>
+    <div class="stat-card"><h3>${scheduleCount}</h3><p>Upcoming Events</p></div>
+    <div class="stat-card"><h3>${feedback.length}</h3><p>Feedback Messages</p></div>
+  `;
+
+  document.getElementById('overviewStats').innerHTML = html;
+}
+
+   async function renderStaff() {
+  const tbody = document.getElementById('staffTableBody');
+
+  try {
+    const response = await fetch(STAFF_API);
+    const result = await response.json();
+
+    if (!result.success) {
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="5" style="text-align:center;color:red;">
+            ${result.message || 'Failed to load staff'}
+          </td>
+        </tr>
+      `;
+      return;
+    }
+
+    const staff = result.data || [];
+
+    if (!staff.length) {
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="5" style="text-align:center;">No staff found</td>
+        </tr>
+      `;
+      return;
+    }
+
+    tbody.innerHTML = staff.map(item => {
+      const avatar = item.image || '👤';
+
+      const avatarHtml =
+        avatar.startsWith('http') || avatar.startsWith('/')
+          ? `<img src="${avatar}" alt="${item.name}" style="width:42px;height:42px;border-radius:50%;object-fit:cover;">`
+          : `<span style="font-size:1.8rem;">${avatar}</span>`;
+
+      return `
+        <tr>
+          <td>${avatarHtml}</td>
+          <td>${item.name || ''}</td>
+          <td>${item.role || ''}</td>
+          <td>${item.title || ''}</td>
+          <td class="actions">
+            <button class="btn btn-outline btn-sm" onclick="editStaff('${item._id}')">✏️</button>
+            <button class="btn btn-danger btn-sm" onclick="deleteStaff('${item._id}')">🗑️</button>
+          </td>
+        </tr>
+      `;
+    }).join('');
+
+  } catch (error) {
+    console.error('Render staff error:', error);
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="5" style="text-align:center;color:red;">
+          Server connection failed
+        </td>
+      </tr>
+    `;
+  }
+}
+
+ async function renderSchedule() {
+  const tbody = document.getElementById('scheduleTableBody');
+
+  try {
+    const response = await fetch(SCHEDULE_API);
+    const result = await response.json();
+
+    if (!result.success) {
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="7" style="text-align:center;color:red;">
+            ${result.message || 'Failed to load schedule'}
+          </td>
+        </tr>
+      `;
+      return;
+    }
+
+    const schedule = result.data || [];
+
+    if (!schedule.length) {
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="7" style="text-align:center;">No schedule events found</td>
+        </tr>
+      `;
+      return;
+    }
+
+    tbody.innerHTML = schedule.map(item => {
+      const type = item.type || "training";
+      const displayType = type.charAt(0).toUpperCase() + type.slice(1);
+
+      return `
+        <tr>
+          <td>${item.date || ''}</td>
+          <td>${item.time || ''}</td>
+          <td>${item.activity || ''}</td>
+          <td><span class="badge-${type.toLowerCase()}">${displayType}</span></td>
+          <td>${item.location || ''}</td>
+          <td>${item.status || 'Scheduled'}</td>
+          <td class="actions">
+            <button class="btn btn-outline btn-sm" onclick="editSchedule('${item._id}')">✏️</button>
+            <button class="btn btn-danger btn-sm" onclick="deleteSchedule('${item._id}')">🗑️</button>
+          </td>
+        </tr>
+      `;
+    }).join('');
+
+  } catch (error) {
+    console.error('Render schedule error:', error);
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="7" style="text-align:center;color:red;">
+          Server connection failed
+        </td>
+      </tr>
+    `;
+  }
+}
+  function renderFeedback() {
+    const fb = getData(STORAGE_KEYS.feedback) || [];
+    const tbody = document.getElementById('feedbackTableBody');
+    tbody.innerHTML = fb.map(item => `
+      <tr>
+        <td>${item.name}</td>
+        <td>${item.message}</td>
+        <td>${'⭐'.repeat(item.rating)}</td>
+        <td>${item.date}</td>
+        <td class="actions">
+          <button class="btn btn-danger btn-sm" onclick="deleteFeedback(${item.id})">🗑️</button>
+        </td>
+      </tr>
+    `).join('');
+  }
+
+  // ---------- CRUD OPERATIONS ----------
+  let nextId = (arr) => arr.length ? Math.max(...arr.map(i=>i.id)) + 1 : 1;
+
+  // NEWS
+ const NEWS_API = "/api/news";
+const STAFF_API = "/api/staff";
+const SCHEDULE_API = "/api/schedule";
+const IMAGE_API = "/api/images";  
+
+  async function getNewsCount() {
+    try {
+      const response = await fetch(NEWS_API);
+      const result = await response.json();
+
+      if (!result.success) return 0;
+      return result.data ? result.data.length : 0;
+
+    } catch (error) {
+      console.error("News count error:", error);
+      return 0;
+    }
+  }
+
+
+async function getStaffCount() {
+  try {
+    const response = await fetch(STAFF_API);
+    const result = await response.json();
+
+    if (!result.success) return 0;
+    return result.data ? result.data.length : 0;
+
+  } catch (error) {
+    console.error("Staff count error:", error);
+    return 0;
+  }
+}
+
+async function getScheduleCount() {
+  try {
+    const response = await fetch(SCHEDULE_API);
+    const result = await response.json();
+
+    if (!result.success) return 0;
+
+    const schedule = result.data || [];
+
+    return schedule.filter(e =>
+      e.status === "Upcoming" ||
+      e.status === "Scheduled"
+    ).length;
+
+  } catch (error) {
+    console.error("Schedule count error:", error);
+    return 0;
+  }
+}
+
+
+
+
+
+  async function openNewsModal(id = null) {
+    const newsEditId = document.getElementById("newsEditId");
+    const newsImage = document.getElementById("newsImage");
+    const newsTitle = document.getElementById("newsTitle");
+    const newsCategory = document.getElementById("newsCategory");
+    const newsDescription = document.getElementById("newsDescription");
+    const newsDate = document.getElementById("newsDate");
+    const newsModalTitle = document.getElementById("newsModalTitle");
+    const newsModal = document.getElementById("newsModal");
+
+    if (
+      !newsEditId ||
+      !newsImage ||
+      !newsTitle ||
+      !newsCategory ||
+      !newsDescription ||
+      !newsDate ||
+      !newsModalTitle ||
+      !newsModal
+    ) {
+      console.error("News modal element missing. Check IDs: newsEditId, newsImage, newsTitle, newsCategory, newsDescription, newsDate, newsModalTitle, newsModal.");
+      alert("News modal has missing input IDs.");
+      return;
+    }
+
+    newsEditId.value = id || "";
+
+    if (id) {
+      try {
+        const response = await fetch(`${NEWS_API}/${id}`);
+        const result = await response.json();
+
+        if (!result.success) {
+          alert(result.message || "News not found");
+          return;
+        }
+
+        const news = result.data;
+
+        newsImage.value = news.image || "";
+        newsTitle.value = news.title || "";
+        newsCategory.value = news.category || "Tournament";
+        newsDescription.value = news.description || "";
+        newsDate.value = news.date || "";
+        newsModalTitle.textContent = "Edit News Article";
+
+      } catch (error) {
+        console.error("Open news error:", error);
+        alert("Failed to open news");
+        return;
+      }
+
+    } else {
+      newsImage.value = "";
+      newsTitle.value = "";
+      newsCategory.value = "Tournament";
+      newsDescription.value = "";
+      newsDate.value = new Date().toISOString().split("T")[0];
+      newsModalTitle.textContent = "Add News Article";
+    }
+
+    newsModal.classList.add("active");
+  }
+
+  function closeNewsModal() {
+    document.getElementById("newsModal").classList.remove("active");
+  }
+
+  async function renderNews() {
+    const tbody = document.getElementById('newsTableBody');
+
+    try {
+      const response = await fetch(NEWS_API);
+      const result = await response.json();
+
+      if (!result.success) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="5" style="text-align:center;color:red;">
+              ${result.message || 'Failed to load news'}
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      const news = result.data || [];
+
+      if (!news.length) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="5" style="text-align:center;">No news found</td>
+          </tr>
+        `;
+        return;
+      }
+
+      tbody.innerHTML = news.map(item => {
+        const image = item.image || '📰';
+        const imageHtml =
+          image.startsWith('http') || image.startsWith('/')
+            ? `<img src="${image}" alt="${item.title}" style="width:42px;height:42px;border-radius:4px;object-fit:cover;">`
+            : `<span style="font-size:1.8rem;">${image}</span>`;
+
+        return `
+          <tr>
+            <td>${imageHtml}</td>
+            <td>${escapeHTML(item.title)}</td>
+            <td>${escapeHTML(item.category)}</td>
+            <td>${escapeHTML(item.date)}</td>
+            <td class="actions">
+              <button class="btn btn-outline btn-sm" onclick="editNews('${item._id}')">✏️</button>
+              <button class="btn btn-danger btn-sm" onclick="deleteNews('${item._id}')">🗑️</button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+
+    } catch (error) {
+      console.error('Render news error:', error);
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="5" style="text-align:center;color:red;">
+            Server connection failed
+          </td>
+        </tr>
+      `;
+    }
+  }
+
+  async function saveNews() {
+    const newsEditId = document.getElementById("newsEditId");
+
+    const entry = {
+      image: document.getElementById("newsImage").value.trim(),
+      title: document.getElementById("newsTitle").value.trim(),
+      category: document.getElementById("newsCategory").value.trim(),
+      description: document.getElementById("newsDescription").value.trim(),
+      date: document.getElementById("newsDate").value
+    };
+
+    if (!entry.title || !entry.category || !entry.description) {
+      alert("Title, category and description are required");
+      return;
+    }
+
+    const id = newsEditId.value;
+
+    try {
+      const response = await fetch(id ? `${NEWS_API}/${id}` : NEWS_API, {
+        method: id ? "PUT" : "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(entry)
+      });
+
+      const result = await response.json();
+
+      if (!result.success) {
+        alert(result.message || "Failed to save news");
+        return;
+      }
+
+      closeNewsModal();
+      await renderNews();
+      await renderOverview();
+
+      alert(id ? "News updated successfully" : "News added successfully");
+
+    } catch (error) {
+      console.error("Save news error:", error);
+      alert("Failed to save news to database");
+    }
+  }
+
+  function editNews(id) {
+    openNewsModal(id);
+  }
+
+  async function deleteNews(id) {
+    if (!confirm("Delete this news article?")) return;
+
+    try {
+      const response = await fetch(`${NEWS_API}/${id}`, {
+        method: "DELETE"
+      });
+
+      const result = await response.json();
+
+      if (!result.success) {
+        alert(result.message || "Failed to delete news");
+        return;
+      }
+
+      await renderNews();
+      await renderOverview();
+
+    } catch (error) {
+      console.error("Delete news error:", error);
+      alert("Failed to delete news");
+    }
+  }
+
+    // IMAGES
+  async function renderImages() {
+    const tbody = document.getElementById('imageTableBody');
+
+    try {
+      const response = await fetch(IMAGE_API);
+      const result = await response.json();
+
+      if (!result.success) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="5" style="text-align:center;color:red;">
+              ${result.message || 'Failed to load images'}
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      const images = result.data || [];
+
+      if (!images.length) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="5" style="text-align:center;">No images found</td>
+          </tr>
+        `;
+        return;
+      }
+
+      tbody.innerHTML = images.map(item => {
+        const preview = item.image || '🖼️';
+        const previewHtml =
+          preview.startsWith('http') || preview.startsWith('/')
+            ? `<img src="${preview}" alt="${item.title}" style="width:60px;height:60px;border-radius:4px;object-fit:cover;">`
+            : `<span style="font-size:1.8rem;">${preview}</span>`;
+
+        return `
+          <tr>
+            <td>${previewHtml}</td>
+            <td>${item.title || ''}</td>
+            <td><span class="badge-${item.category}">${item.category}</span></td>
+            <td>${item.description ? item.description.substring(0, 50) + '...' : ''}</td>
+            <td class="actions">
+              <button class="btn btn-outline btn-sm" onclick="editImage('${item._id}')">✏️</button>
+              <button class="btn btn-danger btn-sm" onclick="deleteImage('${item._id}')">🗑️</button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+
+    } catch (error) {
+      console.error('Render images error:', error);
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="5" style="text-align:center;color:red;">
+            Server connection failed
+          </td>
+        </tr>
+      `;
+    }
+  }
+
+  async function openImageModal(id = null) {
+    const imageEditId = document.getElementById("imageEditId");
+    const imageFile = document.getElementById("imageFile");
+    const imageTitle = document.getElementById("imageTitle");
+    const imageCategory = document.getElementById("imageCategory");
+    const imageDescription = document.getElementById("imageDescription");
+    const imageModalTitle = document.getElementById("imageModalTitle");
+    const imageModal = document.getElementById("imageModal");
+
+    if (
+    !imageEditId ||
+    !imageFile ||
+    !imageTitle ||
+    !imageCategory ||
+    !imageDescription ||
+    !imageModalTitle ||
+    !imageModal
+) {
+    alert("Image modal has missing input IDs.");
+    return;
+}
+
+    imageEditId.value = id || "";
+
+    if (id) {
+      try {
+        const response = await fetch(`${IMAGE_API}/${id}`);
+        const result = await response.json();
+
+        if (!result.success) {
+          alert(result.message || "Image not found");
+          return;
+        }
+
+        const image = result.data;
+
+         
+        imageTitle.value = image.title || "";
+        imageCategory.value = image.category || "academy";
+        imageDescription.value = image.description || "";
+        imageModalTitle.textContent = "Edit Image";
+
+      } catch (error) {
+        console.error("Open image error:", error);
+        alert("Failed to open image");
+        return;
+      }
+
+    } else {
+      imageFile.value = "";
+      imageTitle.value = "";
+      imageCategory.value = "academy";
+      imageDescription.value = "";
+      imageModalTitle.textContent = "Add Image";
+    }
+
+    imageModal.classList.add("active");
+  }
+
+  function closeImageModal() {
+    document.getElementById("imageModal").classList.remove("active");
+  }
+
+  async function saveImage() {
+
+    const id = document.getElementById("imageEditId").value;
+
+    const imageFile = document.getElementById("imageFile").files[0];
+
+    const title = document.getElementById("imageTitle").value.trim();
+    const category = document.getElementById("imageCategory").value;
+    const description = document.getElementById("imageDescription").value.trim();
+
+    if (!title || !category) {
+        alert("Title and category are required.");
+        return;
+    }
+
+    if (!id && !imageFile) {
+        alert("Please choose an image.");
+        return;
+    }
+
+    const formData = new FormData();
+
+    formData.append("title", title);
+    formData.append("category", category);
+    formData.append("description", description);
+
+    if (imageFile) {
+        formData.append("image", imageFile);
+    }
+
+    try {
+
+        const response = await fetch(
+            id ? `/api/images/${id}` : "/api/images",
+            {
+                method: id ? "PUT" : "POST",
+                body: formData
+            }
+        );
+
+        const result = await response.json();
+
+        if (!result.success) {
+            alert(result.message);
+            return;
+        }
+
+        closeImageModal();
+        renderImages();
+
+        alert(id ? "Image updated." : "Image uploaded.");
+
+    } catch (err) {
+        console.error(err);
+        alert("Upload failed.");
+    }
+
+}
+
+  function editImage(id) {
+    openImageModal(id);
+  }
+
+  async function deleteImage(id) {
+    if (!confirm("Delete this image?")) return;
+
+    try {
+      const response = await fetch(`${IMAGE_API}/${id}`, {
+        method: "DELETE"
+      });
+
+      const result = await response.json();
+
+      if (!result.success) {
+        alert(result.message || "Failed to delete image");
+        return;
+      }
+
+      await renderImages();
+
+    } catch (error) {
+      console.error("Delete image error:", error);
+      alert("Failed to delete image");
+    }
+  }
+
+    // STAFF
+ // STAFF
+async function openStaffModal(id = null) {
+  const staffEditId = document.getElementById('staffEditId');
+  const staffAvatar = document.getElementById('staffAvatar');
+  const staffName = document.getElementById('staffName');
+  const staffRole = document.getElementById('staffRole');
+  const staffExp = document.getElementById('staffExp');
+  const staffModalTitle = document.getElementById('staffModalTitle');
+  const staffModal = document.getElementById('staffModal');
+
+  if (
+    !staffEditId ||
+    !staffAvatar ||
+    !staffName ||
+    !staffRole ||
+    !staffExp ||
+    !staffModalTitle ||
+    !staffModal
+  ) {
+    console.error("Staff modal element missing. Check staff input IDs.");
+    alert("Staff modal has missing input IDs.");
+    return;
+  }
+
+  staffEditId.value = id || '';
+
+  if (id) {
+    try {
+      const response = await fetch(`${STAFF_API}/${id}`);
+      const result = await response.json();
+
+      if (!result.success) {
+        alert(result.message || "Staff not found");
+        return;
+      }
+
+      const staff = result.data;
+
+      staffAvatar.value = staff.image || '';
+      staffName.value = staff.name || '';
+      staffRole.value = staff.role || '';
+      staffExp.value = staff.title || '';
+      staffModalTitle.textContent = 'Edit Staff Member';
+
+    } catch (error) {
+      console.error("Open staff error:", error);
+      alert("Failed to open staff");
+      return;
+    }
+
+  } else {
+    staffAvatar.value = '';
+    staffName.value = '';
+    staffRole.value = '';
+    staffExp.value = '';
+    staffModalTitle.textContent = 'Add Staff Member';
+  }
+
+  staffModal.classList.add('active');
+}
+
+function closeStaffModal() {
+  document.getElementById('staffModal').classList.remove('active');
+}
+
+async function saveStaff() {
+  const staffEditId = document.getElementById('staffEditId');
+
+  const entry = {
+    image: document.getElementById('staffAvatar').value.trim() || '👤',
+    name: document.getElementById('staffName').value.trim(),
+    role: document.getElementById('staffRole').value.trim(),
+    title: document.getElementById('staffExp').value.trim()
+  };
+
+  if (!entry.name || !entry.role) {
+    alert("Name and role are required");
+    return;
+  }
+
+  const id = staffEditId.value;
+
+  try {
+    const response = await fetch(id ? `${STAFF_API}/${id}` : STAFF_API, {
+      method: id ? "PUT" : "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(entry)
+    });
+
+    const result = await response.json();
+
+    if (!result.success) {
+      alert(result.message || "Failed to save staff");
+      return;
+    }
+
+    closeStaffModal();
+    await renderStaff();
+    await renderOverview();
+
+    alert(id ? "Staff updated successfully" : "Staff added successfully");
+
+  } catch (error) {
+    console.error("Save staff error:", error);
+    alert("Failed to save staff to database");
+  }
+}
+
+function editStaff(id) {
+  openStaffModal(id);
+}
+
+async function deleteStaff(id) {
+  if (!confirm('Remove this staff member?')) return;
+
+  try {
+    const response = await fetch(`${STAFF_API}/${id}`, {
+      method: "DELETE"
+    });
+
+    const result = await response.json();
+
+    if (!result.success) {
+      alert(result.message || "Failed to delete staff");
+      return;
+    }
+
+    await renderStaff();
+    await renderOverview();
+
+  } catch (error) {
+    console.error("Delete staff error:", error);
+    alert("Failed to delete staff");
+  }
+}
+
+  // SCHEDULE
+ // SCHEDULE
+async function openScheduleModal(id = null) {
+  const schedEditId = document.getElementById('schedEditId');
+  const schedDate = document.getElementById('schedDate');
+  const schedTime = document.getElementById('schedTime');
+  const schedActivity = document.getElementById('schedActivity');
+  const schedType = document.getElementById('schedType');
+  const schedLocation = document.getElementById('schedLocation');
+  const schedStatus = document.getElementById('schedStatus');
+  const scheduleModalTitle = document.getElementById('scheduleModalTitle');
+  const scheduleModal = document.getElementById('scheduleModal');
+
+  if (
+    !schedEditId ||
+    !schedDate ||
+    !schedTime ||
+    !schedActivity ||
+    !schedType ||
+    !schedLocation ||
+    !schedStatus ||
+    !scheduleModalTitle ||
+    !scheduleModal
+  ) {
+    console.error("Schedule modal element missing. Check schedule input IDs.");
+    alert("Schedule modal has missing input IDs.");
+    return;
+  }
+
+  schedEditId.value = id || '';
+
+  if (id) {
+    try {
+      const response = await fetch(`${SCHEDULE_API}/${id}`);
+      const result = await response.json();
+
+      if (!result.success) {
+        alert(result.message || "Schedule not found");
+        return;
+      }
+
+      const sched = result.data;
+
+      schedDate.value = sched.date || '';
+      schedTime.value = sched.time || '';
+      schedActivity.value = sched.activity || '';
+      schedType.value = capitalizeFirst(sched.type || 'training');
+      schedLocation.value = sched.location || '';
+      schedStatus.value = sched.status || 'Scheduled';
+
+      scheduleModalTitle.textContent = 'Edit Schedule Event';
+
+    } catch (error) {
+      console.error("Open schedule error:", error);
+      alert("Failed to open schedule");
+      return;
+    }
+
+  } else {
+    schedDate.value = '';
+    schedTime.value = '';
+    schedActivity.value = '';
+    schedType.value = 'Training';
+    schedLocation.value = '';
+    schedStatus.value = 'Scheduled';
+    scheduleModalTitle.textContent = 'Add Schedule Event';
+  }
+
+  scheduleModal.classList.add('active');
+}
+
+function closeScheduleModal() {
+  document.getElementById('scheduleModal').classList.remove('active');
+}
+
+function capitalizeFirst(text) {
+  if (!text) return "";
+  return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+}
+
+async function saveSchedule() {
+  const schedEditId = document.getElementById('schedEditId');
+
+  const entry = {
+    date: document.getElementById('schedDate').value,
+    time: document.getElementById('schedTime').value.trim(),
+    activity: document.getElementById('schedActivity').value.trim(),
+    type: document.getElementById('schedType').value.toLowerCase(),
+    location: document.getElementById('schedLocation').value.trim(),
+    status: document.getElementById('schedStatus').value
+  };
+
+  if (!entry.date || !entry.time || !entry.activity || !entry.type || !entry.location) {
+    alert("Date, time, activity, type and location are required");
+    return;
+  }
+
+  const id = schedEditId.value;
+
+  try {
+    const response = await fetch(id ? `${SCHEDULE_API}/${id}` : SCHEDULE_API, {
+      method: id ? "PUT" : "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(entry)
+    });
+
+    const result = await response.json();
+
+    if (!result.success) {
+      alert(result.message || "Failed to save schedule");
+      return;
+    }
+
+    closeScheduleModal();
+    await renderSchedule();
+    await renderOverview();
+
+    alert(id ? "Schedule updated successfully" : "Schedule added successfully");
+
+  } catch (error) {
+    console.error("Save schedule error:", error);
+    alert("Failed to save schedule to database");
+  }
+}
+
+function editSchedule(id) {
+  openScheduleModal(id);
+}
+
+async function deleteSchedule(id) {
+  if (!confirm('Delete this schedule event?')) return;
+
+  try {
+    const response = await fetch(`${SCHEDULE_API}/${id}`, {
+      method: "DELETE"
+    });
+
+    const result = await response.json();
+
+    if (!result.success) {
+      alert(result.message || "Failed to delete schedule");
+      return;
+    }
+
+    await renderSchedule();
+    await renderOverview();
+
+  } catch (error) {
+    console.error("Delete schedule error:", error);
+    alert("Failed to delete schedule");
+  }
+}
+
+  // FEEDBACK (only delete)
+  function deleteFeedback(id) {
+    if (confirm('Remove this feedback?')) {
+      const fb = getData(STORAGE_KEYS.feedback).filter(f=>f.id!==id);
+      setData(STORAGE_KEYS.feedback, fb);
+      renderFeedback();
+      renderOverview();
+    }
+  }
+
+  // PERFORMANCE CHART
+  function renderPerformanceChart() {
+    const ctx = document.getElementById('attendanceChart').getContext('2d');
+    // Fake monthly attendance data
+    const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    const attendanceData = [45, 52, 48, 55, 60, 58, 62, 65, 70, 68, 72, 75];
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: months,
+        datasets: [{
+          label: 'Players Attended',
+          data: attendanceData,
+          backgroundColor: 'rgba(0, 188, 212, 0.7)',
+          borderColor: '#00838F',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: { y: { beginAtZero: true } }
+      }
+    });
+    document.getElementById('avgAttendance').textContent = Math.round(attendanceData.reduce((a,b)=>a+b)/12);
+    document.getElementById('playerCount').textContent = '78'; // static demo
+    document.getElementById('matchWinRate').textContent = '68%';
+  }
+
+  // ---------- NAVIGATION ----------
+  function switchPage(pageName) {
+    document.querySelectorAll('.dashboard-page').forEach(p => p.classList.remove('active'));
+    document.getElementById('page-' + pageName).classList.add('active');
+    document.querySelectorAll('.sidebar-nav a').forEach(a => a.classList.remove('active'));
+    document.querySelector(`.sidebar-nav a[data-page="${pageName}"]`).classList.add('active');
+
+    if (pageName === 'overview') renderOverview();
+    else if (pageName === 'news') renderNews();
+    else if (pageName === 'images') renderImages();
+    else if (pageName === 'staff') renderStaff();
+    else if (pageName === 'schedule') renderSchedule();
+    else if (pageName === 'performance') renderPerformanceChart();
+    else if (pageName === 'feedback') renderFeedback();
+  }
+
+  document.querySelectorAll('.sidebar-nav a').forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const page = link.getAttribute('data-page');
+      switchPage(page);
+    });
+  });
+
+  // Close modals on outside click
+  window.addEventListener('click', (e) => {
+    if (e.target.classList.contains('modal')) {
+      e.target.classList.remove('active');
+    }
+  });
+
+  // Initialize everything
+  initData();
+  renderOverview();
+  // Pre-render other pages but only overview active
+  renderNews(); renderImages(); renderStaff(); renderSchedule(); renderFeedback();
+</script>
+</body>
+</html>

@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AGACIRO Football Academy</title>
+    <link rel="stylesheet" href="/css/index.css">
+    <link rel="icon" href="images\agaciro logo.jpg" type="image/png">
+</head>
+<body>
+
+    <!-- ==================== NAVIGATION ==================== -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#" class="nav-logo" onclick="navigateTo('home')">
+                <div class="logo-icon">⚽</div>
+                AGACIRO<span>FA</span>
+            </a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#" class="active" data-page="home" onclick="navigateTo('home')">🏠 Home</a></li>
+                <li><a href="#" data-page="schedule" onclick="navigateTo('schedule')">📅 Schedule</a></li>
+                <li><a href="#" data-page="news" onclick="navigateTo('news')">📰 News</a></li>
+                <li><a href="#" data-page="staff" onclick="navigateTo('staff')">👥 Staff</a></li>
+                <li><a href="#" data-page="gallery" onclick="navigateTo('gallery')">🖼️ Gallery</a></li>
+            </ul>
+            <div class="hamburger" id="hamburger" onclick="toggleMobileMenu()">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-overlay" id="mobileOverlay" onclick="toggleMobileMenu()"></div>
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="#" class="active-mob" data-page="home" onclick="navigateTo('home'); toggleMobileMenu();">🏠 Home</a>
+        <a href="#" data-page="schedule" onclick="navigateTo('schedule'); toggleMobileMenu();">📅 Schedule</a>
+        <a href="#" data-page="news" onclick="navigateTo('news'); toggleMobileMenu();">📰 News</a>
+        <a href="#" data-page="staff" onclick="navigateTo('staff'); toggleMobileMenu();">👥 Staff</a>
+        <a href="#" data-page="gallery" onclick="navigateTo('gallery'); toggleMobileMenu();">🖼️ Gallery</a>
+    </div>
+
+    <!-- ==================== HOME PAGE ==================== -->
+    <div class="page-section active-page" id="page-home">
+        <!-- Hero -->
+        <section class="hero story-sider" id="hero">
+            <div class="hero-bg"></div>
+            <div class="hero-pattern"></div>
+            <div class="hero-grid-overlay"></div>
+            <div class="hero-content">
+                <div class="hero-badge">⭐ Elite Football Academy</div>
+                <h1>Welcome to <span class="aqua-text">AGACIRO</span><br>Football Academy</h1>
+                <p class="hero-subtitle">Forging champions, building character, and shaping the future of football — one
+                    talent at a time since 2010.</p>
+                <div class="hero-buttons">
+                    <a href="#" class="btn btn-aqua" onclick="navigateTo('schedule')">📅 View Schedule</a>
+                    <a href="#" class="btn btn-outline" onclick="navigateTo('staff')">👥 Meet Our Staff</a>
+                </div>
+            </div>
+            <div class="hero-scroll-indicator" onclick="document.getElementById('about-section').scrollIntoView({behavior:'smooth'})">
+                <span>↓</span>
+            </div>
+        </section>
+
+        <!-- About / Portfolio -->
+        <section class="about-section" id="about-section">
+            <div class="section-container">
+                <div class="section-header">
+                    <span class="section-tag">About Us</span>
+                    <h2>Building <span class="aqua-highlight">Champions</span> Since 2010</h2>
+                    <div class="section-line"></div>
+                    <p>AGACIRO Football Academy is dedicated to nurturing raw talent into world-class athletes through
+                        discipline, passion, and expert coaching.</p>
+                </div>
+                <div class="about-grid">
+                    <div class="about-image-wrapper">
+                        <div class="about-image-placeholder">
+                            <span class="placeholder-icon"> <img src="images\agaciro logo.jpg" alt="logo" srcset=""></span>
+                        </div>
+                        <div class="about-image-badge"> Established 2010</div>
+                    </div>
+                    <div class="about-content">
+                        <span class="highlight-stat"> Top-Rated Academy</span>
+                        <h3>Where Talent Meets Opportunity</h3>
+                        <p>At AGACIRO, we believe every young player deserves a chance to shine. Our state-of-the-art
+                            facilities and experienced coaching staff provide the perfect environment for growth,
+                            discipline, and excellence in football.</p>
+                        <p>We've produced over <strong>50 professional players</strong> who now compete in top leagues
+                            across Africa and Europe. Our holistic approach combines technical training, tactical
+                            education, physical conditioning, and mental fortitude.</p>
+                        <div class="about-stats">
+                            <div class="stat-card">
+                                <div class="stat-number">14+</div>
+                                <div class="stat-label">Years Active</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number">50+</div>
+                                <div class="stat-label">Pro Players</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number">300+</div>
+                                <div class="stat-label">Active Students</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gallery / Portfolio -->
+        <section class="gallery-section" id="gallery-section">
+            <div class="section-container">
+                <div class="section-header">
+                    <span class="section-tag">Portfolio</span>
+                    <h2>Academy <span style="color:var(--aqua);">Highlights</span></h2>
+                    <div class="section-line"></div>
+                    <p>Moments captured from training sessions, matches, tournaments, and academy life.</p>
+                </div>
+                <div class="gallery-grid" id="clientGalleryGrid">
+                    <div class="gallery-item tall">
+                        <img src="\images\Football shapes of society, AGACIRO FOOTBALL ACADEMY (3).jpg" alt="Training Drills" style="width:100%;height:100%;object-fit:cover;">
+                        <div class="gallery-overlay"><h4>Training Drills</h4><p>Intensive skill development</p></div>
+                    </div>
+                    <div class="gallery-item wide">
+                        <img src="\images\Football shapes of society AGACIRO FOOTBALL ACADEMY tomorrow s stars Rwanda.@ferwafa,@minispor.jpg" alt="Main Stadium" style="width:100%;height:100%;object-fit:cover;">
+                        <div class="gallery-overlay"><h4>Main Stadium</h4><p>Our world-class facility</p></div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="\images\AGACIRO FOOTBALL ACADEMY,we started at the grassroots to the elite..jpg" alt="Goalkeeper Training" style="width:100%;height:100%;object-fit:cover;">
+                        <div class="gallery-overlay"><h4>Goalkeeper Training</h4><p>Specialized coaching</p></div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="/images/news1.jpg" alt="Fitness Sessions" style="width:100%;height:100%;object-fit:cover;">
+                        <div class="gallery-overlay"><h4>Fitness Sessions</h4><p>Peak conditioning</p></div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="/images/news2.jpg" alt="Youth Program" style="width:100%;height:100%;object-fit:cover;">
+                        <div class="gallery-overlay"><h4>Youth Program</h4><p>Ages 6-12 development</p></div>
+                    </div>
+                    <div class="gallery-item tall">
+                        <img src="/images/news3.jpg" alt="Championship Win" style="width:100%;height:100%;object-fit:cover;">
+                        <div class="gallery-overlay"><h4>Championship Win</h4><p>2024 Regional Cup</p></div>
+                    </div>
+                    <div class="gallery-item wide">
+                        <img src="/images/staff1.jpg" alt="Team Photo" style="width:100%;height:100%;object-fit:cover;">
+                        <div class="gallery-overlay"><h4>Team Photo</h4><p>AGACIRO Senior Squad</p></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- ==================== SCHEDULE PAGE ==================== -->
+    <div class="page-section" id="page-schedule">
+       <div class="schedule-hero story-slider">
+   
+
+    
+
+    <div class="schedule-hero-content">
+        <h1>📅 <span>Schedule</span> & Fixtures</h1>
+        <p>Training sessions, upcoming matches, and recent results</p>
+    </div>
+</div>
+        <div class="section-container">
+            <div class="schedule-tabs">
+                <button class="schedule-tab active-tab" onclick="switchScheduleTab('all', this)">📋 All</button>
+                <button class="schedule-tab" onclick="switchScheduleTab('training', this)">🏋️ Training</button>
+                <button class="schedule-tab" onclick="switchScheduleTab('match', this)">⚔️ Matches</button>
+                <button class="schedule-tab" onclick="switchScheduleTab('friendly', this)">🤝 Friendlies</button>
+            </div>
+            <div class="schedule-table-wrapper">
+                <table class="schedule-table" id="scheduleTable">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Activity</th>
+                            <th>Type</th>
+                            <th>Location</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                   <tbody id="clientScheduleBody">
+    <tr>
+        <td colspan="6" style="text-align:center;">Loading schedule...</td>
+    </tr>
+</tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== NEWS PAGE ==================== -->
+    <div class="page-section" id="page-news">
+        <div class="news-hero story-slider">
+            <h1>📰 <span>Latest News</span> & Updates</h1>
+            <p style="color:#bbb; margin-top:0.5rem;">Stay informed with everything happening at AGACIRO</p>
+        </div>
+        <div class="section-container">
+            <div class="news-grid" id="clientNewsGrid">
+    <p style="color:#bbb;">Loading news...</p>
+</div>
+                
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== STAFF PAGE ==================== -->
+    <div class="page-section" id="page-staff">
+        <div class="staff-hero story-slider">
+            <h1>👥 <span>Academy</span> Staff</h1>
+            <p style="color:#bbb; margin-top:0.5rem;">Meet the dedicated professionals behind AGACIRO's success</p>
+        </div>
+        <div class="section-container">
+            <div class="staff-grid" id="clientStaffGrid">
+    <p style="color:#bbb;">Loading staff...</p>
+</div>
+               
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== GALLERY PAGE ==================== -->
+    <div class="page-section" id="page-gallery">
+        <div class="staff-hero story-slider">
+            <h1> <span>Academy</span> Gallery</h1>
+            <p style="color:#bbb; margin-top:0.5rem;">Explore moments and highlights from AGACIRO Football Academy</p>
+        </div>
+        <div class="section-container">
+            <div class="gallery-grid" id="clientFullGalleryGrid">
+                <p style="color:#bbb;">Loading gallery images...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="footer">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <h3>⚽ AGACIRO FA</h3>
+                <p>Forging champions, building character, and shaping the future of football. Join us on our journey to
+                    excellence.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#" onclick="navigateTo('home')">Home</a></li>
+                    <li><a href="#" onclick="navigateTo('schedule')">Schedule</a></li>
+                    <li><a href="#" onclick="navigateTo('news')">News</a></li>
+                    <li><a href="#" onclick="navigateTo('staff')">Staff</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Programs</h4>
+                <ul>
+                    <li><a href="#">Youth Academy (Ages 6-12)</a></li>
+                    <li><a href="#">Junior Program (Ages 13-15)</a></li>
+                    <li><a href="#">Senior Squad (Ages 16-20)</a></li>
+                    <li><a href="#">Goalkeeper Academy</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Contact</h4>
+                <ul>
+                    <li><a href="#">📧 info@agacirofa.com</a></li>
+                    <li><a href="#">📞 +250 795 862 749</a></li>
+                    <li><a href="#">📍 Kigali, Rwanda</a></li>
+                    <li><a href="#">🌐 www.agacirofa.com</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 AGACIRO Football Academy. All Rights Reserved. | Designed with K-SHEMA</p>
+        </div>
+    </footer>
+
+    <!-- ==================== SCRIPTS ==================== -->
+   <script>
+    // =========================
+    // API ROUTES
+    // =========================
+    const NEWS_API = "/api/news";
+    const STAFF_API = "/api/staff";
+    const SCHEDULE_API = "/api/schedule";
+    const IMAGES_API = "/api/images";
+
+    let currentScheduleFilter = "all";
+
+    // =========================
+    // SMALL HELPERS
+    // =========================
+    function escapeHTML(value) {
+        return String(value || "")
+            .replaceAll("&", "&amp;")
+            .replaceAll("<", "&lt;")
+            .replaceAll(">", "&gt;")
+            .replaceAll('"', "&quot;")
+            .replaceAll("'", "&#039;");
+    }
+
+    function isImageUrl(value) {
+        if (!value) return false;
+        return value.startsWith("http") || value.startsWith("/") || value.startsWith("data:image");
+    }
+
+    function formatDate(dateValue) {
+        if (!dateValue) return "";
+        const date = new Date(dateValue + "T00:00:00");
+
+        if (isNaN(date.getTime())) {
+            return dateValue;
+        }
+
+        return date.toLocaleDateString("en-US", {
+            month: "short",
+            day: "numeric",
+            year: "numeric"
+        });
+    }
+
+    function formatScheduleDate(dateValue) {
+        if (!dateValue) return "";
+        const date = new Date(dateValue + "T00:00:00");
+
+        if (isNaN(date.getTime())) {
+            return dateValue;
+        }
+
+        return date.toLocaleDateString("en-US", {
+            weekday: "short",
+            month: "short",
+            day: "numeric"
+        });
+    }
+
+    function capitalizeFirst(text) {
+        if (!text) return "";
+        return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+    }
+
+    function getStatusText(status) {
+        const cleanStatus = status || "Scheduled";
+
+        if (cleanStatus === "Upcoming") return "🔴 Upcoming";
+        if (cleanStatus === "Pending") return "🟡 Pending";
+        if (cleanStatus === "Completed") return "✅ Completed";
+        return "✅ Scheduled";
+    }
+
+    // =========================
+    // DATABASE RENDER: SCHEDULE
+    // =========================
+    async function renderClientSchedule() {
+        const tbody = document.getElementById("clientScheduleBody");
+        if (!tbody) return;
+
+        try {
+            const response = await fetch(SCHEDULE_API);
+            const result = await response.json();
+
+            if (!result.success) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="6" style="text-align:center;color:#ff6b6b;">
+                            ${escapeHTML(result.message || "Failed to load schedule")}
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            const schedule = result.data || [];
+
+            if (!schedule.length) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="6" style="text-align:center;">
+                            No schedule events found
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            tbody.innerHTML = schedule.map(item => {
+                const type = (item.type || "training").toLowerCase();
+                const displayType = capitalizeFirst(type);
+
+                return `
+                    <tr data-type="${escapeHTML(type)}">
+                        <td>${escapeHTML(formatScheduleDate(item.date))}</td>
+                        <td>${escapeHTML(item.time)}</td>
+                        <td>${escapeHTML(item.activity)}</td>
+                        <td><span class="match-badge badge-${escapeHTML(type)}">${escapeHTML(displayType)}</span></td>
+                        <td>${escapeHTML(item.location)}</td>
+                        <td>${escapeHTML(getStatusText(item.status))}</td>
+                    </tr>
+                `;
+            }).join("");
+
+            applyScheduleFilter();
+
+        } catch (error) {
+            console.error("Client schedule error:", error);
+            tbody.innerHTML = `
+                <tr>
+                    <td colspan="6" style="text-align:center;color:#ff6b6b;">
+                        Server connection failed
+                    </td>
+                </tr>
+            `;
+        }
+    }
+
+    // =========================
+    // DATABASE RENDER: NEWS
+    // =========================
+    async function renderClientNews() {
+        const grid = document.getElementById("clientNewsGrid");
+        if (!grid) return;
+
+        try {
+            const response = await fetch(NEWS_API);
+            const result = await response.json();
+
+            if (!result.success) {
+                grid.innerHTML = `<p style="color:#ff6b6b;">${escapeHTML(result.message || "Failed to load news")}</p>`;
+                return;
+            }
+
+            const news = result.data || [];
+
+            if (!news.length) {
+                grid.innerHTML = `<p style="color:#bbb;">No news found.</p>`;
+                return;
+            }
+
+            grid.innerHTML = news.map(item => {
+                const imageValue = item.image || "📰";
+
+                const imageHTML = isImageUrl(imageValue)
+                    ? `<img src="${escapeHTML(imageValue)}" alt="${escapeHTML(item.title)}" style="width:100%;height:100%;object-fit:cover;">`
+                    : escapeHTML(imageValue);
+
+                return `
+                    <div class="news-card">
+                        <div class="news-card-image">
+                            ${imageHTML}
+                            <div class="news-date-badge">${escapeHTML(formatDate(item.date))}</div>
+                        </div>
+                        <div class="news-card-body">
+                            <span class="news-category">${escapeHTML(item.category)}</span>
+                            <h3>${escapeHTML(item.title)}</h3>
+                            <p>${escapeHTML(item.description)}</p>
+                           
+                        </div>
+                    </div>
+                `;
+            }).join("");
+
+        } catch (error) {
+            console.error("Client news error:", error);
+            grid.innerHTML = `<p style="color:#ff6b6b;">Server connection failed.</p>`;
+        }
+    }
+
+    // =========================
+    // DATABASE RENDER: STAFF
+    // =========================
+    async function renderClientStaff() {
+        const grid = document.getElementById("clientStaffGrid");
+        if (!grid) return;
+
+        try {
+            const response = await fetch(STAFF_API);
+            const result = await response.json();
+
+            if (!result.success) {
+                grid.innerHTML = `<p style="color:#ff6b6b;">${escapeHTML(result.message || "Failed to load staff")}</p>`;
+                return;
+            }
+
+            const staff = result.data || [];
+
+            if (!staff.length) {
+                grid.innerHTML = `<p style="color:#bbb;">No staff found.</p>`;
+                return;
+            }
+
+            grid.innerHTML = staff.map(item => {
+                const avatarValue = item.image || "👤";
+
+                const avatarHTML = isImageUrl(avatarValue)
+                    ? `<img src="${escapeHTML(avatarValue)}" alt="${escapeHTML(item.name)}" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;">`
+                    : escapeHTML(avatarValue);
+
+                const emailLink = item.email
+                    ? `<a href="mailto:${escapeHTML(item.email)}" title="Email">@</a>`
+                    : `<a href="#" title="Email" onclick="return false;">@</a>`;
+
+                const phoneLink = item.phone
+                    ? `<a href="tel:${escapeHTML(item.phone)}" title="Phone">☎</a>`
+                    : "";
+
+                return `
+                    <div class="staff-card">
+                        <div class="staff-avatar">
+                            ${avatarHTML}
+                            <div class="staff-role-badge">${escapeHTML(item.role)}</div>
+                        </div>
+                        <div class="staff-card-body">
+                            <h3>${escapeHTML(item.name)}</h3>
+                            <p class="staff-title">${escapeHTML(item.title || item.role)}</p>
+                            <p>${escapeHTML(item.bio || "Dedicated AGACIRO Football Academy staff member.")}</p>
+                            <div class="staff-social">
+                                ${emailLink}
+                                ${phoneLink}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join("");
+
+        } catch (error) {
+            console.error("Client staff error:", error);
+            grid.innerHTML = `<p style="color:#ff6b6b;">Server connection failed.</p>`;
+        }
+    }
+
+    // =========================
+    // DATABASE RENDER: GALLERY
+    // =========================
+   // =========================
+    // DATABASE RENDER: GALLERY
+    // =========================
+    async function renderClientGallery() {
+        const homeGrid = document.getElementById("clientGalleryGrid");
+        const fullGrid = document.getElementById("clientFullGalleryGrid");
+
+        try {
+            const response = await fetch(IMAGES_API);
+            const result = await response.json();
+
+            if (!result.success) {
+                console.warn(result.message || "Failed to load gallery");
+                return;
+            }
+
+            const images = result.data || [];
+
+            if (!images.length) return;
+
+            // 1. Render for Home Page Preview Grid (Randomized & limited to 7)
+            if (homeGrid) {
+                const shuffled = [...images].sort(() => Math.random() - 0.5);
+                const galleryImages = shuffled.slice(0, 7);
+
+                homeGrid.innerHTML = galleryImages.map((item, index) => {
+                    const sizeClass = index % 5 === 0 ? "tall" : index % 4 === 0 ? "wide" : "";
+                    const imageValue = item.image || "⚽";
+
+                    const imageHTML = isImageUrl(imageValue)
+                        ? `<img src="${escapeHTML(imageValue)}" alt="${escapeHTML(item.title)}" style="width:100%;height:100%;object-fit:cover;">`
+                        : `<div class="gallery-placeholder gp-${(index % 7) + 1}">${escapeHTML(imageValue)}</div>`;
+
+                    return `
+                        <div class="gallery-item ${sizeClass}">
+                            ${imageHTML}
+                            <div class="gallery-overlay">
+                                <h4>${escapeHTML(item.title)}</h4>
+                                <p>${escapeHTML(item.description || item.category || "")}</p>
+                            </div>
+                        </div>
+                    `;
+                }).join("");
+            }
+
+            // 2. Render for Dedicated Gallery Page (Shows ALL images)
+            if (fullGrid) {
+                fullGrid.innerHTML = images.map((item, index) => {
+                    const sizeClass = index % 5 === 0 ? "tall" : index % 4 === 0 ? "wide" : "";
+                    const imageValue = item.image || "⚽";
+
+                    return `
+                        <div class="gallery-item ${sizeClass}">
+                            <img src="${escapeHTML(imageValue)}" alt="${escapeHTML(item.title)}" style="width:100%;height:100%;object-fit:cover;">
+                            <div class="gallery-overlay">
+                                <h4>${escapeHTML(item.title)}</h4>
+                                <p>${escapeHTML(item.description || item.category || "")}</p>
+                            </div>
+                        </div>
+                    `;
+                }).join("");
+            }
+
+        } catch (error) {
+            console.error("Client gallery error:", error);
+        }
+    }
+
+
+// =========================
+// DATABASE RENDER: SCHEDULE HERO BACKGROUND
+// =========================
+async function renderScheduleHeroImages() {
+    const track = document.getElementById("scheduleHeroTrack");
+    if (!track) return;
+
+    try {
+        const response = await fetch(IMAGES_API);
+        const result = await response.json();
+
+        if (!result.success) {
+            console.warn(result.message || "Failed to load schedule hero images");
+            return;
+        }
+
+        const images = (result.data || [])
+            .map(item => item.image)
+            .filter(image => isImageUrl(image));
+
+        if (!images.length) {
+            return;
+        }
+
+        // Duplicate images so the scrolling loop becomes smooth and endless
+        const repeatedImages = [...images, ...images, ...images];
+
+        track.innerHTML = repeatedImages.map((image, index) => {
+            return `
+                <div class="schedule-hero-img-card">
+                    <img src="${escapeHTML(image)}" alt="AGACIRO schedule background ${index + 1}">
+                </div>
+            `;
+        }).join("");
+
+    } catch (error) {
+        console.error("Schedule hero images error:", error);
+    }
+}
+    // =========================
+    // NAVIGATION
+    // =========================
+    function navigateTo(pageName) {
+        document.querySelectorAll(".page-section").forEach(section => {
+            section.classList.remove("active-page");
+        });
+
+        const targetPage = document.getElementById("page-" + pageName);
+        if (targetPage) {
+            targetPage.classList.add("active-page");
+        }
+
+        document.querySelectorAll(".nav-links a").forEach(link => {
+            link.classList.remove("active");
+            if (link.getAttribute("data-page") === pageName) {
+                link.classList.add("active");
+            }
+        });
+
+        document.querySelectorAll(".mobile-menu a").forEach(link => {
+            link.classList.remove("active-mob");
+            if (link.getAttribute("data-page") === pageName) {
+                link.classList.add("active-mob");
+            }
+        });
+
+        window.scrollTo({ top: 0, behavior: "smooth" });
+
+        const mobileMenu = document.getElementById("mobileMenu");
+        const mobileOverlay = document.getElementById("mobileOverlay");
+        const hamburger = document.getElementById("hamburger");
+
+        if (mobileMenu && mobileMenu.classList.contains("active")) {
+            mobileMenu.classList.remove("active");
+            mobileOverlay.classList.remove("active");
+            hamburger.classList.remove("active");
+        }
+
+        if (window.location.hash !== "#" + pageName) {
+            window.location.hash = pageName;
+        }
+    }
+
+    // =========================
+    // MOBILE MENU
+    // =========================
+    function toggleMobileMenu() {
+        const mobileMenu = document.getElementById("mobileMenu");
+        const mobileOverlay = document.getElementById("mobileOverlay");
+        const hamburger = document.getElementById("hamburger");
+
+        mobileMenu.classList.toggle("active");
+        mobileOverlay.classList.toggle("active");
+        hamburger.classList.toggle("active");
+    }
+
+    // =========================
+    // NAVBAR SCROLL EFFECT
+    // =========================
+    window.addEventListener("scroll", () => {
+        const navbar = document.getElementById("navbar");
+
+        if (window.scrollY > 50) {
+            navbar.classList.add("scrolled");
+        } else {
+            navbar.classList.remove("scrolled");
+        }
+    });
+
+    // =========================
+    // SCHEDULE TAB FILTER
+    // =========================
+    function switchScheduleTab(type, btn) {
+        currentScheduleFilter = type;
+
+        document.querySelectorAll(".schedule-tab").forEach(tab => {
+            tab.classList.remove("active-tab");
+        });
+
+        if (btn) {
+            btn.classList.add("active-tab");
+        }
+
+        applyScheduleFilter();
+    }
+
+    function applyScheduleFilter() {
+        const rows = document.querySelectorAll("#scheduleTable tbody tr");
+
+        rows.forEach(row => {
+            if (currentScheduleFilter === "all") {
+                row.style.display = "";
+            } else {
+                row.style.display = row.getAttribute("data-type") === currentScheduleFilter ? "" : "none";
+            }
+        });
+    }
+
+    // =========================
+    // INITIALIZE
+    // =========================
+    document.addEventListener("DOMContentLoaded", async () => {
+        
+        await Promise.all([
+            renderClientSchedule(),
+            renderClientNews(),
+            renderClientStaff(),
+            renderClientGallery()
+        ]);
+
+        // Refresh every 1 minute
+        setInterval(() => {
+            renderClientGallery();
+        }, 60000);
+
+        renderStaticScheduleHeroImages();
+        
+        startSlideshow(".hero-bg", backgroundSlides.hero);
+        startSlideshow(".schedule-hero", backgroundSlides.schedule);
+        startSlideshow(".news-hero", backgroundSlides.news);
+        startSlideshow(".staff-hero", backgroundSlides.staff);
+
+        const hash = window.location.hash.replace("#", "");
+
+        if (hash && ["home", "schedule", "news", "staff", "gallery"].includes(hash)) {
+            navigateTo(hash);
+        } else {
+            navigateTo("home");
+        }
+    });
+
+    window.addEventListener("hashchange", () => {
+        const hash = window.location.hash.replace("#", "");
+
+        if (hash && ["home", "schedule", "news", "staff"].includes(hash)) {
+            navigateTo(hash);
+        }
+    });
+
+
+    // =========================
+// STATIC RENDER: SCHEDULE HERO IMAGES
+// =========================
+function renderStaticScheduleHeroImages() {
+    const track = document.getElementById("scheduleHeroTrack");
+    if (!track) return;
+
+    const images = [
+        "/images/AGACIRO FOOTBALL ACADEMY,we started at the grassroots to the elite. (1).jpg",
+        "/images/AGACIRO FOOTBALL ACADEMY,we started at the grassroots to the elite. (2).jpg",
+        "/images/AGACIRO FOOTBALL ACADEMY,we started at the grassroots to the elite. (3).jpg"
+    ];
+
+    const repeatedImages = [...images, ...images, ...images];
+
+    track.innerHTML = repeatedImages.map((image, index) => {
+        return `
+            <div class="schedule-hero-img-card">
+                <img src="${encodeURI(image)}" alt="AGACIRO schedule background ${index + 1}">
+            </div>
+        `;
+    }).join("");
+}
+// =========================
+// HERO / NEWS / STAFF BACKGROUND SLIDESHOW
+// =========================
+
+const backgroundSlides = {
+
+    hero: [
+        "/images/welcome1.jpg",
+        "/images/welcome2.jpg",
+        "/images/welcome3.jpg"
+    ],
+
+    schedule: [
+     "/images/staff1.jpg",
+        "/images/staff2.jpg",
+        "/images/staff3.jpg"
+       
+    ],
+
+    news: [
+        "/images/news1.jpg",
+        "/images/news2.jpg",
+        "/images/news3.jpg"
+    ],
+
+    staff: [
+        "/images/staff1.jpg",
+        "/images/staff2.jpg",
+        "/images/staff3.jpg"
+    ]
+
+};
+
+
+function startSlideshow(selector, images) {
+
+    const element = document.querySelector(selector);
+
+    if (!element || images.length === 0) return;
+
+    let index = 0;
+
+    function changeImage() {
+
+        element.style.backgroundImage =
+            `url("${encodeURI(images[index])}")`;
+
+        index++;
+
+        if (index >= images.length) {
+            index = 0;
+        }
+
+    }
+
+    changeImage();
+
+    setInterval(changeImage, 5000);
+
+}
+</script>
+</body>
+</html>
