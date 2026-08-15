@@ -1,6 +1,7 @@
 
 const express = require("express");
 const uploadImage = require("./middleware/uploadImage");
+require("dotenv").config();
 
 const nodeCrypto = require("node:crypto");
 
